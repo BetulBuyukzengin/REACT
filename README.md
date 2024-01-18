@@ -1,4 +1,4 @@
-# REACT
+# `REACT`
 <h1>React Nedir? </h1>
 * React, Facebook tarafından geliştirilen ve kullanıcı arayüzü oluşturmak için kullanılan bir JavaScript kütüphanesidir.<br>
 * Web uygulamaları geliştirmek için kullanışlıdır.<br>
