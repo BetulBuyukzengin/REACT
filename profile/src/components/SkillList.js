@@ -4,32 +4,32 @@ import Intro from "./Intro";
 const skills = [
   {
     skill: "HTML+CSS",
-    level: "💪",
+    level: "advanced",
     color: "#2662EA",
   },
   {
     skill: "JavaScript",
-    level: "💪",
+    level: "advanced",
     color: "#EFD81D",
   },
   {
     skill: "Web Design",
-    level: "💪",
+    level: "intermediate",
     color: "#C3DCAF",
   },
   {
     skill: "Git and Github",
-    level: "👌",
+    level: "intermediate",
     color: "#E84F33",
   },
   {
     skill: "React",
-    level: "💪",
+    level: "advanced",
     color: "#60DAFB",
   },
   {
     skill: "Svelte",
-    level: "👶",
+    level: "beginner",
     color: "#FF3B00",
   },
 ];
@@ -67,7 +67,9 @@ function SkillList() {
         {skills.map((s) => (
           <SkillItem color={s.color} skillItem={s}>
             {s.skill}
-            {s.level}
+            {s.level==="beginner"&& "👶"}
+            {s.level==="intermediate"&& "👌"}
+            {s.level==="advanced"&& "💪"}
           </SkillItem>
         ))}
       </ul>
