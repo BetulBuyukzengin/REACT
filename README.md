@@ -9,22 +9,24 @@ Virtual DOM (Sanal DOM) konseptini kullanarak, sayfa performansını artırır v
 *Html ögelerini göstermek için kullanıldığı gibi diğer componentleri göstermek için de kullanılır.<br>
 
 <h1>KURULUM: </h1><br>
-* Node JS kurulumundan sonra, npm i -g create-react-app
+* Node JS kurulumundan sonra, 
+npm i -g create-react-app ile react kurulumunu yaptım.  
 
 <h1>Proje oluşturma</h1>
-* npx create-react-app project_name <br>
-*cd jsx (jsx e girilir) ve ardından npm start ile başlatılır.<br>
-*localhost:3000<br>
+* npx create-react-app project_name <br>(öğrenim aşamasında) komutunu kullanarak proje oluşturdum.
+Daha büyük projeleri oluştururken Vite ı kullanacağım.
+npm start komutuyla projemi çalıştırıyorum.
+*localhost:3000
 
-*Her component, uygulamanın belirli bölümü için içerik görüntülemekten sorumludur. Ve isimlerinin ilk harfi büyüktür.Örn, App.js-Language.js gibi<br>
+*Her component, uygulamanın belirli bölümü için içerik görüntülemekten sorumludur. Ve isimlerinin ilk harfi büyüktür.Örn, App.js gibi<br>
 * STATE:Kullanıcının etkileşimiyle değişen değişkenler.<br>
-* JSX: Kullanışlı olduğuve bileşen oluşturmayı kolaylaştırdığı için kullanıyoruz.<br>
+* JSX: Kullanışlı olduğu ve bileşen oluşturmayı kolaylaştırdığı için kullanıyoruz.<br>
 * BABEL: Tarayıcı jsx i anlamayacağı için babel aracılığıyla js e dönüştürülür.<br>
 * WEBPACK, tüm farklı dosyaları alır ve tek dosyada bir araya getirir.<br>
 
 <h3>Teknolojiler</h3>
 * Reactstrap :React.js ile kullanılabilen, Bootstrap 4'un React bileşenlerini içeren bir kütüphanedir. (npm i reactstrap) <br>
-* React developer tools: Uygulamayı oluşturan componentleri görmemizi ve uyugamaların oluşturulmasında reat ın kullanılıp kullanılmadığının bilgisini almayı sağlar.<br>
+* React developer tools: Uygulamayı oluşturan componentleri görmemizi ve uygulamaların oluşturulmasında reat ın kullanılıp kullanılmadığının bilgisini almayı sağlar.<br>
 *bulma.io :Css lib  (npm i  bulma ile kurulum yaptıktan sonra import etmeliyiz.)
 
 <h2>React uygulamasını çalıştırmak için gerekli 5 dosya:</h2>
