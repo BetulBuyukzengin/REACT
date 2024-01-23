@@ -9,22 +9,24 @@ Virtual DOM (Sanal DOM) konseptini kullanarak, sayfa performansını artırır v
 *Html ögelerini göstermek için kullanıldığı gibi diğer componentleri göstermek için de kullanılır.<br>
 
 <h1>KURULUM: </h1><br>
-* Node JS kurulumundan sonra, npm i -g create-react-app
+* Node JS kurulumundan sonra, 
+npm i -g create-react-app ile react kurulumunu yaptım.  
 
 <h1>Proje oluşturma</h1>
-* npx create-react-app project_name <br>
-*cd jsx (jsx e girilir) ve ardından npm start ile başlatılır.<br>
-*localhost:3000<br>
+* npx create-react-app project_name <br>(öğrenim aşamasında) komutunu kullanarak proje oluşturdum.
+Daha büyük projeleri oluştururken Vite ı kullanacağım.
+npm start komutuyla projemi çalıştırıyorum.
+*localhost:3000
 
-*Her component, uygulamanın belirli bölümü için içerik görüntülemekten sorumludur. Ve isimlerinin ilk harfi büyüktür.Örn, App.js-Language.js gibi<br>
+*Her component, uygulamanın belirli bölümü için içerik görüntülemekten sorumludur. Ve isimlerinin ilk harfi büyüktür.Örn, App.js gibi<br>
 * STATE:Kullanıcının etkileşimiyle değişen değişkenler.<br>
-* JSX: Kullanışlı olduğuve bileşen oluşturmayı kolaylaştırdığı için kullanıyoruz.<br>
+* JSX: Kullanışlı olduğu ve bileşen oluşturmayı kolaylaştırdığı için kullanıyoruz.<br>
 * BABEL: Tarayıcı jsx i anlamayacağı için babel aracılığıyla js e dönüştürülür.<br>
 * WEBPACK, tüm farklı dosyaları alır ve tek dosyada bir araya getirir.<br>
 
 <h3>Teknolojiler</h3>
 * Reactstrap :React.js ile kullanılabilen, Bootstrap 4'un React bileşenlerini içeren bir kütüphanedir. (npm i reactstrap) <br>
-* React developer tools: Uygulamayı oluşturan componentleri görmemizi ve uyugamaların oluşturulmasında reat ın kullanılıp kullanılmadığının bilgisini almayı sağlar.<br>
+* React developer tools: Uygulamayı oluşturan componentleri görmemizi ve uygulamaların oluşturulmasında reat ın kullanılıp kullanılmadığının bilgisini almayı sağlar.<br>
 *bulma.io :Css lib  (npm i  bulma ile kurulum yaptıktan sonra import etmeliyiz.)
 
 <h2>React uygulamasını çalıştırmak için gerekli 5 dosya:</h2>
@@ -35,24 +37,24 @@ Virtual DOM (Sanal DOM) konseptini kullanarak, sayfa performansını artırır v
 -node modules<br>
 
 
-*index.js içerisinde:<br>
+*index.js içerisine eklememiz gereken kod parçacıkları<br>
 //1) Import the React and ReactDOM libraries<br>
-import React from 'react';  ---> Bileşenin ne old anlayan ve kullanılabilir uygulama oluşt. için birden fazla bileşenin birlikte nasıl çalışacağını bilen kütüphane.<br>
-import ReactDom from 'react-dom/client';  ---> Componentleri farklı tarayıcılarda göstermeyi sağlar<br>
+`import React from 'react';  `---> Bileşenin ne old anlayan ve kullanılabilir uygulama oluşt. için birden fazla bileşenin birlikte nasıl çalışacağını bilen kütüphane.<br>
+`import ReactDom from 'react-dom/client';`  ---> Componentleri farklı tarayıcılarda göstermeyi sağlar<br>
 
 //2) Get a reference to the div with ID root <br>
-const el =document.getElementById('root');
+`const el =document.getElementById('root');`
 
 //3) Tell React to take control of that element<br>
-const root=ReactDOM.createRoot(el);
+`const root=ReactDOM.createRoot(el);`
 
 //4) Create a component<br>
-function App(){
+`function App(){
 return <h1>Hi</h1>;
-}
+}`
 
 //5) Show the component on the screen<br>
-root.render(<App />);
+`root.render(<App />);`
 
 <h2>JSX Nedir? </h2>
 Ekranda göstermek istediğimizi belirtmek için bileşen içine yazdığımız şeydir.<br>
@@ -60,9 +62,11 @@ JSX i kullanabilmek için, bir bileşenden döndürmemiz(return) gerekir.<br>
 -String ve number değişkenlerini göstermek için {} kullanırız.<br>
 -Boolean, null ve undefined değerler nasıl oluşturacağını bilmediği için hiçbir şey GÖSTERMEZ !!!<br>
 -Dizilerde ise, içerisindeki virgüller silinir ve tüm elemanlar gösterilir.<br>
--Nesneyi direkt yazdırmaya çalışırsak hata mesajı alınız(etiketler arasına giremez h1 gibi). Ama prop olarak yazdırabiliriz. ( const config={color:'red'} ) <input abc={config}/> <br>
+-Nesneyi direkt yazdırmaya çalışırsak hata mesajı alınız(etiketler arasına giremez h1 gibi). Ama prop olarak yazdırabiliriz. const config={color:'red'}
 
-- Önceden değişken oluşturup çağrmak yerine küme parantezi içerisinde hesap da yapılabilir. return <h1> {new Date().toLocaleTimeString()}</h1><br>
+<input abc={config}/> <br>
+
+- Önceden değişken oluşturup çağrmak yerine küme parantezi içerisinde hesap da yapılabilir. `return <h1> {new Date().toLocaleTimeString()}</h1>`<br>
 
 -Ebeveyn component ten child componente veri aktarırken PROPS lar kullanılır.<br>
 -Propsların, değişken olarak tanımlanması gerekmez. (inputType="number",minValue=5 ) <input type={inputType} min={minValue}> ya da <input type="number" min={5}><br>
