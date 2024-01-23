@@ -1,0 +1,10 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.counter {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
