@@ -69,10 +69,10 @@ function ResetBtn({ setCount, setStep, count, step }) {
     setCount(0);
     setStep(1);
   }
-  return (
-    <>
-      {(count > 0 || step > 1) && <button onClick={handleReset}>Reset</button>}
-    </>
-  );
+  return count !== 0 || step !== 1 ? (
+    <div>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  ) : null;
 }
 export default App;
