@@ -39,7 +39,8 @@ function BillInput({ bill, onSetBill }) {
       <label>How much was the bill?</label>
       <input
         type="number"
-        value={bill}
+        value={bill} 
+        placeholder="Bill value"
         onChange={(e) => onSetBill(+e.target.value)}
       />
     </div>
@@ -67,9 +68,9 @@ function SelectPercentage({ percentage, setPercentage, children }) {
 
 function Output({ bill, tip }) {
   return (
-    <p>
+    <h1>
       You pay ${bill + tip} (${bill} + ${tip} tip)
-    </p>
+    </h1>
   );
 }
 function Reset({ onReset }) {
