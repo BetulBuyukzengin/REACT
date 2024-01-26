@@ -23,8 +23,13 @@ export default function App() {
       <SelectPercentage percentage={percentage2} setPercentage={setPercentage2}>
         How did your friend like the service?
       </SelectPercentage>
-      <Output bill={bill} tip={tip} />
-      <Reset onReset={handleReset} />
+
+      {bill > 0 && (
+        <>
+          <Output bill={bill} tip={tip} />
+          <Reset onReset={handleReset} />
+        </>
+      )}
     </div>
   );
 }
