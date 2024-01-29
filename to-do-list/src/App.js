@@ -1,5 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Paper, Stack } from "@mui/material";
 import Icon from "@mui/material/Icon";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -7,10 +11,6 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { Paper, Stack } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
 import Checkbox from "@mui/material/Checkbox";
 import toast, { Toaster } from "react-hot-toast";
 import Typography from "@mui/material/Typography";
@@ -22,10 +22,13 @@ import Select from "@mui/material/Select";
 
 export default function App() {
   const [todos, setTodos] = useState([]);
-  //edit btn - modal
+
+  //edit
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSort, setSelectedSort] = React.useState("");
+
+  //sort
+  const [selectedSort, setSelectedSort] = useState("input");
 
   function handleDelete(id) {
     setTodos(todos.filter((todo) => id !== todo.id));
@@ -47,16 +50,30 @@ export default function App() {
   return (
     <div className="app">
       <Toaster position="top-right" />
-      <ToDoList
-        todos={todos}
-        onDelete={handleDelete}
-        onCheck={handleChecked}
-        onEdit={handleEdit}
-        selectedSort={selectedSort}
-        setSelectedSort={setSelectedSort}
-      />
+      <Stack
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          width: "80%",
+          justifyContent: "center",
+        }}
+      >
+        <ToDoList
+          todos={todos}
+          onDelete={handleDelete}
+          onCheck={handleChecked}
+          onEdit={handleEdit}
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
+        />
+        {todos.length >= 1 && (
+          <BasicSelect
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+          />
+        )}
+      </Stack>
       <ListAdd setTodos={setTodos} />
-
       {selectedTodo && (
         <BasicModal
           open={isModalOpen}
@@ -97,7 +114,6 @@ function ToDoList({
           overflowY: "scroll",
           justifyContent: "center",
           display: "inline-block",
-
           margin: "1rem",
         }}
         elevation={6}
@@ -105,9 +121,10 @@ function ToDoList({
         {!todos.length ? (
           <CheckTodos />
         ) : (
-          <List>
+          <List selectedSort={selectedSort} setSelectedSort={setSelectedSort}>
             <ListFolder
-              // sortedItems={todos}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
               todos={todos}
               onDelete={onDelete}
               onCheck={onCheck}
@@ -116,11 +133,6 @@ function ToDoList({
           </List>
         )}
       </Paper>
-      <BasicSelect
-        todos={todos}
-        selectedSort={selectedSort}
-        setSelectedSort={setSelectedSort}
-      />
     </Stack>
   );
 }
@@ -151,9 +163,9 @@ function CheckTodos() {
   );
 }
 //sorted func
-function BasicSelect({ todos, selectedSort, setSelectedSort }) {
+function BasicSelect({ selectedSort, setSelectedSort }) {
   return (
-    <Box sx={{ minWidth: 120, mt: "1rem" }}>
+    <Box sx={{ minWidth: 125, mt: "1rem" }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Sort</InputLabel>
         <Select
@@ -174,22 +186,20 @@ function BasicSelect({ todos, selectedSort, setSelectedSort }) {
 }
 
 function ListFolder({ todos, onDelete, onCheck, onEdit, selectedSort }) {
-  //sorted
-  // let sortedItems;
+  let sortedItems;
 
-  // if (selectedSort && "input") sortedItems = todos;
-  // if (selectedSort && "date")
-  //   sortedItems = todos.slice().sort((a, b) => a.date - b.date);
-  // if (selectedSort && "description")
-  //   sortedItems = todos
-  //     .slice()
-  //     .sort((a, b) => a.description.localeCompare(b.description));
-  // if (selectedSort && "checked")
-  //   sortedItems = todos.slice.sort(
-  //     (a, b) => Number(a.checked) - Number(b.checked)
-  //   );
-  // return sortedItems.map((item) => (
-  return todos.map((item) => (
+  if (selectedSort === "input") sortedItems = todos;
+  if (selectedSort === "date")
+    sortedItems = todos.slice().sort((a, b) => a.date - b.date);
+  if (selectedSort === "description")
+    sortedItems = todos
+      .slice()
+      .sort((a, b) => a.description.localeCompare(b.description));
+  if (selectedSort === "checked")
+    sortedItems = todos
+      .slice()
+      .sort((a, b) => Number(a.checked) - Number(b.checked));
+  return sortedItems.map((item) => (
     <>
       <ListItem
         className="listItem"
@@ -295,7 +305,7 @@ function ControlledCheckbox({ onCheck, id, checked }) {
 
 function ListAdd({ setTodos }) {
   const [text, setText] = useState("");
-  const [error, setError] = useState(false); //hata yok
+  const [error, setError] = useState(false); //no errors at startup
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -303,7 +313,6 @@ function ListAdd({ setTodos }) {
       setError(true);
       return toast.error("Can't add empty todo");
     }
-
     const newItem = {
       id: Math.random().toString(36).substr(2, 10),
       description: text,
@@ -318,7 +327,7 @@ function ListAdd({ setTodos }) {
 
   useEffect(
     function () {
-      if (text.length > 1) setError(false); //hatayı kaldırıyor
+      if (text.length > 1) setError(false); //remove error
     },
     [text.length]
   );
