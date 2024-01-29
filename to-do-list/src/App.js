@@ -43,36 +43,28 @@ export default function App() {
   }
 
   function handleEdit(id) {
-    const selectedTodo = todos.find((todo) => id === todo.id);
-    setSelectedTodo(selectedTodo);
+    setSelectedTodo(todos.find((todo) => id === todo.id));
     setIsModalOpen(true);
+  }
+  function handleAllDelete() {
+    // Select and check
+    setTodos((prevTodos) => prevTodos.filter((todo) => !todo.checked));
+    // Select remove
+    setSelectedTodo(null);
   }
   return (
     <div className="app">
       <Toaster position="top-right" />
-      <Stack
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          width: "80%",
-          justifyContent: "center",
-        }}
-      >
-        <ToDoList
-          todos={todos}
-          onDelete={handleDelete}
-          onCheck={handleChecked}
-          onEdit={handleEdit}
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
-        />
-        {todos.length >= 1 && (
-          <BasicSelect
-            selectedSort={selectedSort}
-            setSelectedSort={setSelectedSort}
-          />
-        )}
-      </Stack>
+      <ToDoList
+        todos={todos}
+        onDelete={handleDelete}
+        allOnDelete={handleAllDelete}
+        onCheck={handleChecked}
+        onEdit={handleEdit}
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
+        selectedTodo={selectedTodo}
+      />
       <ListAdd setTodos={setTodos} />
       {selectedTodo && (
         <BasicModal
@@ -96,6 +88,7 @@ function ToDoList({
   onEdit,
   selectedSort,
   setSelectedSort,
+  allOnDelete,
 }) {
   return (
     <Stack
@@ -104,27 +97,37 @@ function ToDoList({
         flexDirection: "row",
         width: "70%",
         height: "70dvh",
-        marginBottom: "1.5rem",
+        // marginBottom: "1.5rem",
+        textAlign: "end",
       }}
     >
       <Paper
+        className="scrol"
         sx={{
           width: "100%",
-          height: "70dvh",
-          overflowY: "scroll",
+          // height: "70dvh",
           justifyContent: "center",
-          display: "inline-block",
           margin: "1rem",
         }}
         elevation={6}
       >
+        <Stack
+          sx={{ display: "flex", flexDirection: "row", justifyContent: "end" }}
+        >
+          <BasicSelect
+            // sx={{ position: "fixed" }}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+          />
+          <AllDeleteBtn allOnDelete={allOnDelete} />
+        </Stack>
         {!todos.length ? (
           <CheckTodos />
         ) : (
-          <List selectedSort={selectedSort} setSelectedSort={setSelectedSort}>
+          <List>
             <ListFolder
               selectedSort={selectedSort}
-              setSelectedSort={setSelectedSort}
+              // setSelectedSort={setSelectedSort}
               todos={todos}
               onDelete={onDelete}
               onCheck={onCheck}
@@ -136,6 +139,81 @@ function ToDoList({
     </Stack>
   );
 }
+function ListAdd({ setTodos }) {
+  const [text, setText] = useState("");
+  const [error, setError] = useState(false); //no errors at startup
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (text.length < 1) {
+      setError(true);
+      return toast.error("Can't add empty todo");
+    }
+    const newItem = {
+      id: Math.random().toString(36).substr(2, 10),
+      description: text,
+      checked: false,
+      createdAt: new Date().toDateString(),
+    };
+
+    setTodos((item) => [...item, newItem]);
+    setText("");
+    toast.success("Successfully added");
+  }
+
+  useEffect(
+    function () {
+      if (text.length > 1) setError(false); //remove error
+    },
+    [text.length]
+  );
+
+  return (
+    <Box
+      onSubmit={handleSubmit}
+      component="form"
+      sx={{
+        "& > :not(style)": { m: 1 },
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <Button
+        type="submit"
+        variant="outlined"
+        size="small"
+        sx={{
+          display: "flex",
+          textAlign: "center",
+          justifyContent: "center",
+          alignSelf: "center",
+          gap: "0.3rem",
+          width: "15ch",
+        }}
+      >
+        <Icon>
+          <span className="material-icons-outlined">add_circle</span>
+        </Icon>
+        Add
+      </Button>
+
+      <TextField
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        id="standard-basic"
+        label="Things to do"
+        variant="outlined"
+        sx={{ width: "50ch" }}
+        helperText="Please enter some todos"
+        error={Boolean(error)}
+      />
+    </Box>
+  );
+}
 
 function CheckTodos() {
   return (
@@ -144,7 +222,7 @@ function CheckTodos() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "70dvh",
+        height: "40dvh",
       }}
     >
       <Paper
@@ -165,7 +243,13 @@ function CheckTodos() {
 //sorted func
 function BasicSelect({ selectedSort, setSelectedSort }) {
   return (
-    <Box sx={{ minWidth: 125, mt: "1rem" }}>
+    <Box
+      sx={{
+        minWidth: 125,
+        m: "1rem 1rem 0 0",
+        display: "inline-block",
+      }}
+    >
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Sort</InputLabel>
         <Select
@@ -182,6 +266,28 @@ function BasicSelect({ selectedSort, setSelectedSort }) {
         </Select>
       </FormControl>
     </Box>
+  );
+}
+
+//All Delete Btn
+function AllDeleteBtn({ allOnDelete }) {
+  return (
+    <Stack
+      direction="row"
+      spacing={2}
+      sx={{ display: "inline-block", mt: "1rem" }}
+    >
+      <Button
+        variant="outlined"
+        href="#outlined-buttons"
+        sx={{ p: "0.9rem 2rem" }}
+        color="error"
+        startIcon={<DeleteIcon />}
+        onClick={() => allOnDelete()}
+      >
+        ALL DELETE
+      </Button>
+    </Stack>
   );
 }
 
@@ -241,6 +347,7 @@ function BasicModal({ open, onClose, todo, setTodos }) {
   const [editedText, setEditedText] = useState(todo.description);
 
   const handleSave = () => {
+    // if (e.key === "Enter") console.log("Enter tuşuna basıldı");
     setTodos((prevTodos) =>
       prevTodos.map((item) =>
         todo.id === item.id ? { ...item, description: editedText } : item
@@ -265,8 +372,8 @@ function BasicModal({ open, onClose, todo, setTodos }) {
           transform: "translate(-50%, -50%)",
           width: 400,
           bgcolor: "background.paper",
-          border: "2px solid #3887BE",
           boxShadow: 14,
+          borderRadius: "10px",
           p: 4,
         }}
       >
@@ -280,8 +387,12 @@ function BasicModal({ open, onClose, todo, setTodos }) {
           />
         </Typography>
         <Button
+          // type="submit"
           variant="outlined"
           onClick={handleSave}
+          // onKeyDown={(e) => {
+          //   if (e.key === "enter") console.log("hey");
+          // }}
           sx={{ ml: "1rem" }}
           startIcon={<SaveIcon />}
         >
@@ -300,80 +411,5 @@ function ControlledCheckbox({ onCheck, id, checked }) {
       type="checkbox"
       inputProps={{ "aria-label": "controlled" }}
     />
-  );
-}
-
-function ListAdd({ setTodos }) {
-  const [text, setText] = useState("");
-  const [error, setError] = useState(false); //no errors at startup
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (text.length < 1) {
-      setError(true);
-      return toast.error("Can't add empty todo");
-    }
-    const newItem = {
-      id: Math.random().toString(36).substr(2, 10),
-      description: text,
-      checked: false,
-      createdAt: new Date().toDateString(),
-    };
-
-    setTodos((item) => [...item, newItem]);
-    setText("");
-    toast.success("Successfully added");
-  }
-
-  useEffect(
-    function () {
-      if (text.length > 1) setError(false); //remove error
-    },
-    [text.length]
-  );
-  return (
-    <Box
-      onSubmit={handleSubmit}
-      component="form"
-      sx={{
-        "& > :not(style)": { m: 1 },
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <Button
-        type="submit"
-        variant="outlined"
-        size="small"
-        sx={{
-          display: "flex",
-          textAlign: "center",
-          justifyContent: "center",
-          alignSelf: "center",
-          gap: "0.3rem",
-          width: "15ch",
-        }}
-      >
-        <Icon>
-          <span className="material-icons-outlined">add_circle</span>
-        </Icon>
-        Add
-      </Button>
-
-      <TextField
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        id="standard-basic"
-        label="Things to do"
-        variant="outlined"
-        sx={{ width: "50ch" }}
-        helperText="Please enter some todos"
-        error={Boolean(error)}
-      />
-    </Box>
   );
 }

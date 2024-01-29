@@ -24,3 +24,24 @@ code {
 .state-button {
   margin-right: 5px;
 }
+
+.scrol {
+  scrollbar-width: thin;
+  scrollbar-color: #92b8d1 #ffffff;
+  overflow-y: scroll;
+}
+
+/* Chrome, Edge, and Safari */
+.scrol::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrol::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+.scrol::-webkit-scrollbar-thumb {
+  background-color: #28a4f0;
+  border-radius: 15px;
+  border: 3px dashed #e61414;
+}
