@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Paper, Stack } from "@mui/material";
+import React, { useEffect, useReducer, useState } from "react";
+import {
+  Paper,
+  Stack,
+  createTheme,
+  useMediaQuery,
+  ThemeProvider,
+  SvgIcon,
+} from "@mui/material";
 import Icon from "@mui/material/Icon";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,60 +27,131 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
-import { TodoProvider, useList } from "./contexts/TodoContext";
 
 export default function App() {
-  // function handleChecked(id) {
-  //   setTodos(
-  //     todos.map((todo) =>
-  //       id === todo.id ? { ...todo, checked: !todo.checked } : todo
-  //     )
-  //   );
-  // }
+  const [todos, setTodos] = useState(() => {
+    const getTodos = JSON.parse(localStorage.getItem("todos"));
+    if (!getTodos) return;
 
-  // function handleAllDelete() {
-  //   setTodos((prevTodos) => prevTodos.filter((todo) => !todo.checked));
-  // }
+    return getTodos;
+  });
 
+  //edit
+  const [selectedTodo, setSelectedTodo] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  //sort
+  const [selectedSort, setSelectedSort] = useState("input");
+  //locale storage
+  useEffect(() => {
+    JSON.stringify({ name: "John", age: 25 });
+
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+  function handleDelete(id) {
+    setTodos(todos.filter((todo) => id !== todo.id));
+    toast.success("Successfully deleted");
+  }
+  function handleChecked(id) {
+    setTodos(
+      todos.map((todo) =>
+        id === todo.id ? { ...todo, checked: !todo.checked } : todo
+      )
+    );
+  }
+
+  function handleEdit(id) {
+    setSelectedTodo(todos.find((todo) => id === todo.id));
+    setIsModalOpen(true);
+  }
+  function handleAllDelete() {
+    // Select and check
+    setTodos((prevTodos) => prevTodos.filter((todo) => !todo.checked));
+    // Select remove
+    setSelectedTodo(null);
+  }
   return (
-    <TodoProvider>
-      <Box sx={{ display: "grid", placeItems: "center" }}>
-        <Grid
-          container
-          className="app"
-          sx={{
-            width: {
-              xs: "100%", // Ekran küçük olduğunda
-              sm: "80%", // Küçük ekranlarda (small)
-              md: "70%", // Orta ekranlarda (medium)
-              lg: "50%", // Büyük ekranlarda (large)
-            },
-          }}
-        >
-          <Toaster position="top-right" />
-          <Grid xs={12}>
-            <ToDoList className="toDoList" />
-          </Grid>
-          <Grid xs={12}>
-            <ListAdd />
-          </Grid>
-          {/* <BasicModal /> */}
+    <Box sx={{ display: "grid", placeItems: "center" }}>
+      <Grid
+        container
+        className="app"
+        sx={{
+          width: {
+            xs: "100%", // Ekran küçük olduğunda
+            sm: "80%", // Küçük ekranlarda (small)
+            md: "70%", // Orta ekranlarda (medium)
+            lg: "50%", // Büyük ekranlarda (large)
+          },
+        }}
+      >
+        {/* <ThemeProvider theme={theme}> */}
+        <Toaster position="top-right" />
+        <Grid xs={12}>
+          <ToDoList
+            className="toDoList"
+            todos={todos}
+            onDelete={handleDelete}
+            allOnDelete={handleAllDelete}
+            onCheck={handleChecked}
+            onEdit={handleEdit}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+            selectedTodo={selectedTodo}
+          />
         </Grid>
-      </Box>
-    </TodoProvider>
+        <Grid xs={12}>
+          <ListAdd setTodos={setTodos} />
+        </Grid>
+        {selectedTodo && (
+          <BasicModal
+            open={isModalOpen}
+            onClose={() => {
+              setIsModalOpen(false);
+              setSelectedTodo(null);
+            }}
+            todo={selectedTodo}
+            setTodos={setTodos}
+          />
+        )}
+        {/* </ThemeProvider> */}
+      </Grid>
+    </Box>
   );
 }
 
-function ToDoList() {
-  const { todos, isModalOpen } = useList();
-
+function ToDoList({
+  todos,
+  onDelete,
+  onCheck,
+  onEdit,
+  selectedSort,
+  setSelectedSort,
+  allOnDelete,
+  // isSmallScreen,
+  // isLargeScreen,
+  // isExtraSmallScreen,
+}) {
   return (
     <Stack
       sx={{
         display: "flex",
         flexDirection: "row",
+        // width: isLargeScreen
+        //   ? "100%"
+        //   : isSmallScreen
+        //   ? "80%"
+        //   : isExtraSmallScreen
+        //   ? "100%"
+        //   : "70%",
+        // width: isLargeScreen
+        //   ? "70%"
+        //   : isSmallScreen
+        //   ? "100%"
+        //   : isExtraSmallScreen && "100%",
+
         width: "100%",
         height: "70dvh",
+        // marginBottom: "1.5rem",
         textAlign: "end",
       }}
     >
@@ -81,6 +159,7 @@ function ToDoList() {
         className="scrol"
         sx={{
           width: "100%",
+          // height: "70dvh",
           justifyContent: "center",
           margin: "1rem",
           padding: "1rem",
@@ -88,31 +167,73 @@ function ToDoList() {
         elevation={6}
       >
         <Stack
+          // className="button-stack"
           sx={{ display: "flex", flexDirection: "row", justifyContent: "end" }}
         >
+          {/* {window.innerWidth > 600 && "EDIT"} */}
+
           <Grid
+            // item
             xs={window.innerWidth > 600 ? 12 : 6}
             md={window.innerWidth > 600 ? 12 : 4}
             sx={{ display: "inherit", justifyContent: "end" }}
           >
-            <BasicSelect />
-            <AllDeleteBtn />
-            {isModalOpen && <BasicModal />}
+            <BasicSelect
+              // sx={{ position: "fixed" }}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+            />
+            <AllDeleteBtn allOnDelete={allOnDelete} />
           </Grid>
         </Stack>
         {!todos.length ? (
           <CheckTodos />
         ) : (
           <List>
-            <ListFolder />
+            {/* <Grid item xs={6} md={4}> */}
+            <ListFolder
+              selectedSort={selectedSort}
+              // setSelectedSort={setSelectedSort}
+              todos={todos}
+              onDelete={onDelete}
+              onCheck={onCheck}
+              onEdit={onEdit}
+            />
+            {/* </Grid> */}
           </List>
         )}
       </Paper>
     </Stack>
   );
 }
-function ListAdd() {
-  const { handleSubmit, dispatch, text } = useList(); //context ten func çağırma
+function ListAdd({ setTodos }) {
+  const [text, setText] = useState("");
+  const [error, setError] = useState(false); //no errors at startup
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (text.length < 1) {
+      setError(true);
+      return toast.error("Can't add empty todo");
+    }
+    const newItem = {
+      id: Math.random().toString(36).substr(2, 10),
+      description: text,
+      checked: false,
+      createdAt: new Date().toDateString(),
+    };
+
+    setTodos((item) => [...item, newItem]);
+    setText("");
+    toast.success("Successfully added");
+  }
+
+  useEffect(
+    function () {
+      if (text.length > 1) setError(false); //remove error
+    },
+    [text.length]
+  );
 
   return (
     <Box
@@ -150,9 +271,7 @@ function ListAdd() {
 
       <TextField
         value={text}
-        onChange={(e) =>
-          dispatch({ type: "text/value", payload: e.target.value })
-        }
+        onChange={(e) => setText(e.target.value)}
         id="standard-basic"
         label={
           <Typography
@@ -176,8 +295,7 @@ function ListAdd() {
             Please enter some todos
           </Typography>
         }
-        // error={Boolean(error)
-        // }
+        error={Boolean(error)}
       />
     </Box>
   );
@@ -209,13 +327,7 @@ function CheckTodos() {
   );
 }
 //sorted func
-function BasicSelect() {
-  const { dispatch, selectedSort } = useList();
-  async function handleChange(e) {
-    dispatch({ type: "sort/todo", payload: e.target.value });
-    console.log(selectedSort);
-  }
-
+function BasicSelect({ selectedSort, setSelectedSort }) {
   return (
     <Box
       sx={{
@@ -231,7 +343,7 @@ function BasicSelect() {
           id="demo-simple-select"
           value={selectedSort}
           label="SORT"
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => setSelectedSort(e.target.value)}
         >
           <MenuItem value="input">INPUT</MenuItem>
           <MenuItem value="date">DATE</MenuItem>
@@ -265,9 +377,22 @@ function AllDeleteBtn({ allOnDelete }) {
   );
 }
 
-function ListFolder({ onCheck }) {
-  const { todos, dispatch } = useList();
-  return todos.map((item) => (
+function ListFolder({ todos, onDelete, onCheck, onEdit, selectedSort }) {
+  let sortedItems;
+
+  if (selectedSort === "input") sortedItems = todos;
+  if (selectedSort === "date")
+    sortedItems = todos.slice().sort((a, b) => a.date - b.date);
+  if (selectedSort === "description")
+    sortedItems = todos
+      .slice()
+      .sort((a, b) => a.description.localeCompare(b.description));
+  if (selectedSort === "checked")
+    sortedItems = todos
+      .slice()
+      .sort((a, b) => Number(a.checked) - Number(b.checked));
+  return sortedItems.map((item) => (
+    // <Grid item xs={6} md={4}>
     <>
       <ListItem className="listItem" key={Math.random().toString(36)}>
         <ControlledCheckbox
@@ -291,9 +416,7 @@ function ListFolder({ onCheck }) {
           <Button
             variant="outlined"
             startIcon={<EditIcon />}
-            onClick={() =>
-              dispatch({ type: "edit/modal/todo", payload: item.id })
-            }
+            onClick={() => onEdit(item.id)}
           >
             {window.innerWidth > 600 && "EDIT"}
           </Button>
@@ -301,7 +424,7 @@ function ListFolder({ onCheck }) {
           <Button
             variant="outlined"
             color="error"
-            onClick={() => dispatch({ type: "delete/todo", payload: item.id })}
+            onClick={() => onDelete(item.id)}
             startIcon={<DeleteIcon />}
           >
             {window.innerWidth > 600 && "DELETE"}
@@ -310,15 +433,27 @@ function ListFolder({ onCheck }) {
       </ListItem>
       <Divider />
     </>
+    // </Grid>
   ));
 }
 
-function BasicModal() {
-  const { isModalOpen, dispatch, handleEdit } = useList();
+function BasicModal({ open, onClose, todo, setTodos }) {
+  const [editedText, setEditedText] = useState(todo.description);
+
+  const handleSave = () => {
+    setTodos((prevTodos) =>
+      prevTodos.map((item) =>
+        todo.id === item.id ? { ...item, description: editedText } : item
+      )
+    );
+    onClose();
+    toast.success("Successfully edited");
+  };
 
   return (
     <Modal
-      open={isModalOpen}
+      open={open}
+      onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -337,19 +472,18 @@ function BasicModal() {
       >
         <Typography id="modal-modal-description" sx={{ m: 2 }}>
           <TextField
+            value={editedText}
+            onChange={(e) => setEditedText(e.target.value)}
             label="Edit Todo"
             variant="outlined"
             sx={{ width: "100%" }}
-            onChange={(e) =>
-              dispatch({ type: "text/value", payload: e.target.value })
-            }
           />
         </Typography>
         <Button
           variant="outlined"
+          onClick={handleSave}
           sx={{ ml: "1rem" }}
           startIcon={<SaveIcon />}
-          onClick={handleEdit}
         >
           SAVE
         </Button>

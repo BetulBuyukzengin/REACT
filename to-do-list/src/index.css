@@ -13,9 +13,11 @@ code {
 }
 .app {
   margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* display: grid; */
+  /* place-items: "center"; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
 }
 
 .list {
@@ -44,4 +46,40 @@ code {
   background-color: #28a4f0;
   border-radius: 15px;
   border: 3px dashed #e61414;
+}
+/* .button-stack {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+} */
+/* phone 600 px
+@media only screen and (max-width: 37.5em) {
+  .toDoList {
+    width: 100%;
+  }
+  .app {
+    width: 100%;
+  }
+  .button-stack {
+    flex-direction: column;
+  }
+}
+/* 
+tab-port 900px 
+@media only screen and (max-width: 56.25em) {
+}
+
+/tab-land 1200 px 
+@media only screen and (max-width: 75em) {
+}
+
+/ big-desktop 1800 px 
+@media only screen and (min-width: 112.5em) {
+} */
+
+.MuiButton-startIcon {
+  margin: 0;
+}
+.css-1d6wzja-MuiButton-startIcon {
+  margin: 0 !important;
 }
