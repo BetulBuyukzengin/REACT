@@ -57,7 +57,7 @@ export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "interstellar";
+  const query = "f";
 
   useEffect(function () {
     async function fetchMovies() {
@@ -69,15 +69,20 @@ export default function App() {
         if (!res.ok)
           throw new Error("Something went wrong with fetching movies");
         const data = await res.json();
+
+        if (data.Response === "False") throw new Error("Movie not found");
+
         //  React 18'de katı mod etkinleştirildiğinde sadece gelişme aşamasında,
         //efektlerimiz yalnızca bir kez değil, aslında iki kez çalışacaktır.
         //Uygulamamız üretimdeyken artık gerçekleşmeyecek.
         // console.log(data.Search);
         setMovies(data.Search);
-        setIsLoading(false);
       } catch (err) {
         console.error(err.message);
         setError(err.message);
+        // setIsLoading(false); burada kullanırsak kodu kopyalar
+      } finally {
+        //her zaman çalışacak alan
         setIsLoading(false);
       }
     }
