@@ -50,7 +50,13 @@ export default function App() {
             },
           }}
         >
-          <Toaster position="top-right" />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              // Define default options
+              duration: 5000,
+            }}
+          />
           <Grid xs={12}>
             <ToDoList className="toDoList" />
           </Grid>
@@ -100,7 +106,7 @@ function ToDoList() {
             {isModalOpen && <BasicModal />}
           </Grid>
         </Stack>
-        {!todos.length ? (
+        {!todos?.length ? (
           <CheckTodos />
         ) : (
           <List>
@@ -138,8 +144,8 @@ function ListAdd() {
           justifyContent: "center",
           alignSelf: "center",
           gap: "0.3rem",
-          width: "15ch",
-          fontSize: window.innerWidth > 600 ? `${1.5}rem` : `${1}rem`,
+          width: "10ch",
+          fontSize: window.innerWidth > 600 ? `${1.2}rem` : `${1}rem`,
         }}
       >
         <Icon>
@@ -157,7 +163,7 @@ function ListAdd() {
         label={
           <Typography
             sx={{
-              fontSize: window.innerWidth > 600 ? `${1.5}rem` : `${1.2}rem`,
+              fontSize: window.innerWidth > 600 ? `${1.2}rem` : `${1}rem`,
             }}
           >
             Things to do
@@ -170,7 +176,7 @@ function ListAdd() {
         helperText={
           <Typography
             sx={{
-              fontSize: window.innerWidth > 600 ? `${1.2}rem` : `${1.1}rem`,
+              fontSize: window.innerWidth > 600 ? `${0.8}rem` : `${0.5}rem`,
             }}
           >
             Please enter some todos
@@ -210,33 +216,40 @@ function CheckTodos() {
 }
 //sorted func
 function BasicSelect() {
-  const { dispatch, selectedSort } = useList();
-  async function handleChange(e) {
-    dispatch({ type: "sort/todo", payload: e.target.value });
-    console.log(selectedSort);
-  }
+  const { dispatch, handleSortTodos, selectedSort, todos } = useList();
 
   return (
     <Box
       sx={{
         minWidth: 125,
-        m: "1rem 1rem 0 0",
+        m: "1rem 0.6rem 0 0",
         display: "inline-block",
       }}
     >
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+        <InputLabel
+          id="demo-simple-select-label"
+          sx={{
+            textAlign: "center",
+            display: "grid",
+            alignItems: "center",
+          }}
+        >
+          Sort by
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={selectedSort}
-          label="SORT"
-          onChange={(e) => handleChange(e)}
+          label="SORTBY"
+          sx={{ p: "0.06rem 1rem" }}
+          size="small"
+          disabled={todos?.length < 2}
+          onChange={(e) => handleSortTodos(e.target.value)}
         >
-          <MenuItem value="input">INPUT</MenuItem>
-          <MenuItem value="date">DATE</MenuItem>
-          <MenuItem value="description">DESCRIPTION</MenuItem>
-          <MenuItem value="checked">CHECKED</MenuItem>
+          <MenuItem value="date">Sort by Date</MenuItem>
+          <MenuItem value="description">Sort by Description</MenuItem>
+          <MenuItem value="checked">Sort by Checked</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -244,7 +257,8 @@ function BasicSelect() {
 }
 
 //All Delete Btn
-function AllDeleteBtn({ allOnDelete }) {
+function AllDeleteBtn() {
+  const { todos, handleAllDelete } = useList();
   return (
     <Stack
       direction="row"
@@ -254,27 +268,25 @@ function AllDeleteBtn({ allOnDelete }) {
       <Button
         variant="outlined"
         href="#outlined-buttons"
-        sx={{ p: "0.9rem 2rem" }}
+        sx={{ p: "0.5rem 1rem" }}
+        size="small"
         color="error"
         startIcon={<DeleteIcon />}
-        onClick={() => allOnDelete()}
+        onClick={handleAllDelete}
+        disabled={!todos?.length}
       >
-        ALL DELETE
+        Clear Completed ones
       </Button>
     </Stack>
   );
 }
 
 function ListFolder({ onCheck }) {
-  const { todos, dispatch } = useList();
+  const { todos, dispatch, handleDelete } = useList();
   return todos.map((item) => (
     <>
       <ListItem className="listItem" key={Math.random().toString(36)}>
-        <ControlledCheckbox
-          checked={item.checked}
-          id={item.id}
-          onCheck={onCheck}
-        />
+        <ControlledCheckbox id={item.id} checked={item.checked} />
         <ListItemText primary={item.description} secondary={item.createdAt}>
           {item.description}
         </ListItemText>
@@ -291,6 +303,8 @@ function ListFolder({ onCheck }) {
           <Button
             variant="outlined"
             startIcon={<EditIcon />}
+            sx={{ p: "0.5rem 1rem" }}
+            size="small"
             onClick={() =>
               dispatch({ type: "edit/modal/todo", payload: item.id })
             }
@@ -301,7 +315,9 @@ function ListFolder({ onCheck }) {
           <Button
             variant="outlined"
             color="error"
-            onClick={() => dispatch({ type: "delete/todo", payload: item.id })}
+            sx={{ p: "0.5rem 1rem" }}
+            size="small"
+            onClick={() => handleDelete(item.id)}
             startIcon={<DeleteIcon />}
           >
             {window.innerWidth > 600 && "DELETE"}
@@ -314,7 +330,8 @@ function ListFolder({ onCheck }) {
 }
 
 function BasicModal() {
-  const { isModalOpen, dispatch, handleEdit } = useList();
+  const { isModalOpen, dispatch, handleEdit, handleCloseModal, editedText } =
+    useList();
 
   return (
     <Modal
@@ -337,32 +354,46 @@ function BasicModal() {
       >
         <Typography id="modal-modal-description" sx={{ m: 2 }}>
           <TextField
+            value={editedText}
             label="Edit Todo"
             variant="outlined"
             sx={{ width: "100%" }}
             onChange={(e) =>
-              dispatch({ type: "text/value", payload: e.target.value })
+              dispatch({ type: "editedtext/value", payload: e.target.value })
             }
           />
         </Typography>
         <Button
-          variant="outlined"
-          sx={{ ml: "1rem" }}
+          variant="contained"
+          sx={{ p: "0.5rem 1rem", ml: "1rem" }}
+          size="small"
           startIcon={<SaveIcon />}
           onClick={handleEdit}
+          // color="success"
         >
           SAVE
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ p: "0.5rem 1rem", ml: "1rem" }}
+          size="small"
+          // startIcon={<ArrowBackSharpIcon />}
+          onClick={handleCloseModal}
+          color="error"
+        >
+          Cancel
         </Button>
       </Box>
     </Modal>
   );
 }
 
-function ControlledCheckbox({ onCheck, id, checked }) {
+function ControlledCheckbox({ id, checked }) {
+  const { handleCheckedTodo } = useList();
   return (
     <Checkbox
       checked={checked}
-      onChange={() => onCheck(id)}
+      onChange={() => handleCheckedTodo(id)}
       type="checkbox"
       inputProps={{ "aria-label": "controlled" }}
     />

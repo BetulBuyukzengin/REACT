@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import toast from "react-hot-toast";
 // const todos = [
 //   {
@@ -25,13 +25,18 @@ const initialState = {
   todos: [],
   selectedTodo: null,
   isModalOpen: false,
-  selectedSort: "input",
+  selectedSort: "",
   text: "",
   error: false,
   editedText: "",
 };
 function reducer(state, action) {
   switch (action.type) {
+    case "get/todos":
+      return {
+        ...state,
+        todos: action.payload,
+      };
     case "add/todo":
       return {
         ...state,
@@ -44,6 +49,18 @@ function reducer(state, action) {
         ...state,
         todos: state.todos.filter((todo) => action.payload !== todo.id),
       };
+    case "all/delete/todo":
+      return { ...state, todos: state.todos.filter((todo) => !todo.checked) };
+    case "checked/todo":
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          action.payload === todo.id
+            ? { ...todo, checked: !todo.checked }
+            : todo
+        ),
+      };
+
     // save
     case "edit/todo":
       return {
@@ -55,35 +72,53 @@ function reducer(state, action) {
             : item
         ),
       };
+
     case "edit/modal/todo":
       return {
         ...state,
         selectedTodo: state.todos.find((todo) => action.payload === todo.id),
         isModalOpen: true,
       };
-    case "sort/todo":
-      let sortedItems;
 
-      if (state.selectedSort === "input") sortedItems = state.todos;
+    case "sort/todo":
       if (state.selectedSort === "date")
-        sortedItems = state.todos
-          .slice()
-          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        return {
+          ...state,
+          todos: state.todos
+            .slice()
+            .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
+          selectedSort: action.payload,
+        };
+
       if (state.selectedSort === "description")
-        sortedItems = state.todos
-          .slice()
-          .sort((a, b) => a.description.localeCompare(b.description));
+        return {
+          ...state,
+          todos: state.todos
+            .slice()
+            .sort((a, b) => a.description.localeCompare(b.description)),
+          selectedSort: action.payload,
+        };
+
       if (state.selectedSort === "checked")
-        sortedItems = state.todos
-          .slice()
-          .sort((a, b) => Number(a.checked) - Number(b.checked));
-      console.log(sortedItems);
-      console.log(state.selectedSort);
-      return { ...state, todos: sortedItems, selectedSort: action.payload };
-    // case "sort/value":
-    //   return { ...state, selectedSort: action.payload };
+        return {
+          ...state,
+          todos: state.todos
+            .slice()
+            .sort((a, b) => Number(a.checked) - Number(b.checked)),
+          selectedSort: action.payload,
+        };
+      return { ...state, todos: state.todos, selectedSort: action.payload };
+
     case "text/value":
-      return { ...state, text: action.payload, editedText: action.payload };
+      return { ...state, text: action.payload };
+
+    case "editedtext/value":
+      return { ...state, editedText: action.payload };
+    case "close/modal":
+      return {
+        ...state,
+        isModalOpen: false,
+      };
     default:
       return state;
   }
@@ -97,9 +132,32 @@ function TodoProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, initialState);
 
+  useEffect(function () {
+    const storedData = JSON.parse(localStorage.getItem("todos"));
+    if (!storedData) return;
+    return dispatch({ type: "get/todos", payload: storedData });
+  }, []);
+
+  useEffect(
+    function () {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    },
+    [todos]
+  );
+
+  useEffect(
+    function () {
+      handleSortTodos(selectedSort);
+    },
+    [selectedSort]
+  );
+
+  function handleSortTodos(selected) {
+    dispatch({ type: "sort/todo", payload: selected });
+  }
   function handleSubmit(e) {
     e.preventDefault();
-    if (text.length < 2) return toast.error("boş ekleme");
+    if (text.length < 1) return toast.error("Can't add empty to do");
 
     const newItem = {
       id: Math.random().toString(36).substr(2, 10),
@@ -109,12 +167,31 @@ function TodoProvider({ children }) {
     };
     console.log(newItem.id);
     dispatch({ type: "add/todo", payload: newItem });
-    toast.success("başarılı");
+    toast.success("Successfully added");
   }
+  // console.log(editedText);
   function handleEdit() {
+    console.log(editedText);
+    if (editedText.length < 1) return toast.error("Can't add empty to do");
     dispatch({ type: "edit/todo" });
-    toast.success("başarılı");
+    toast.success("Successfully edited");
   }
+  function handleCloseModal() {
+    dispatch({ type: "close/modal" });
+  }
+  function handleDelete(id) {
+    dispatch({ type: "delete/todo", payload: id });
+    toast.success("Successfully deleted");
+  }
+  function handleAllDelete() {
+    dispatch({ type: "all/delete/todo" });
+    toast.success("Successfully deleted complated to do's");
+  }
+  function handleCheckedTodo(id) {
+    dispatch({ type: "checked/todo", payload: id });
+    toast.success("State is changed");
+  }
+  // console.log(selectedSort);
   return (
     <TodoContext.Provider
       value={{
@@ -128,6 +205,11 @@ function TodoProvider({ children }) {
         dispatch,
         handleSubmit,
         handleEdit,
+        handleDelete,
+        handleCloseModal,
+        handleCheckedTodo,
+        handleAllDelete,
+        handleSortTodos,
       }}
     >
       {children}
