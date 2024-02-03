@@ -53,46 +53,77 @@ const average = (arr) =>
 const KEY = "7ec2e548";
 
 export default function App() {
+  const [query, setQuery] = useState(""); // Başlangıç değeri verildiğinde effect ilk renderlamada çalışacağından verilen değer gösterilir
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "f";
+  const tempQuery = "interstellar";
 
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res =
-          await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}
+  //  Effect types çalışma sırası
+  // İlk çalıştığında sıralama: 4-1-2-3
+  // Input a veri girildiğinde sıralama: 4-2-3
+  // useEffect(function () {
+  //   console.log("After initial render");
+  // }, []); //1
+  // useEffect(function () {
+  //   console.log("After every render");
+  // }); //2
+  // useEffect(
+  //   function () {
+  //     console.log("D");
+  //   },
+  //   [query]
+  // ); //3
+  // console.log("During render"); //4
+
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res =
+            await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}
       `);
-        if (!res.ok)
-          throw new Error("Something went wrong with fetching movies");
-        const data = await res.json();
+          if (!res.ok)
+            throw new Error("Something went wrong with fetching movies");
+          const data = await res.json();
 
-        if (data.Response === "False") throw new Error("Movie not found");
+          if (data.Response === "False") throw new Error("Movie not found");
 
-        //  React 18'de katı mod etkinleştirildiğinde sadece gelişme aşamasında,
-        //efektlerimiz yalnızca bir kez değil, aslında iki kez çalışacaktır.
-        //Uygulamamız üretimdeyken artık gerçekleşmeyecek.
-        // console.log(data.Search);
-        setMovies(data.Search);
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-        // setIsLoading(false); burada kullanırsak kodu kopyalar
-      } finally {
-        //her zaman çalışacak alan
-        setIsLoading(false);
+          //  React 18'de katı mod etkinleştirildiğinde sadece gelişme aşamasında,
+          //efektlerimiz yalnızca bir kez değil, aslında iki kez çalışacaktır.
+          //Uygulamamız üretimdeyken artık gerçekleşmeyecek.
+          // console.log(data.Search);
+          setMovies(data.Search);
+        } catch (err) {
+          console.error(err.message);
+          setError(err.message);
+          // setIsLoading(false); burada kullanırsak kodu kopyalar
+        } finally {
+          //her zaman çalışacak alan
+          setIsLoading(false);
+        }
       }
-    }
-    fetchMovies();
-  }, []);
+
+      // if (!query.length) { sorgu yoksa
+      //3 den azsa arama yapma
+
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+        return; //? return kullanmazsam erro göstermeye devam ediyor
+      }
+      fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <Navbar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </Navbar>
       <Main>
@@ -154,9 +185,7 @@ function NumResults({ movies }) {
     </p>
   );
 }
-function Search() {
-  const [query, setQuery] = useState("");
-
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
