@@ -39,7 +39,6 @@ export default function StarRating({
   // Props types controll
   StarRating.propTypes = {
     color: PropTypes.string,
-
     className: PropTypes.string,
     messages: PropTypes.array,
     maxRating: PropTypes.number,
