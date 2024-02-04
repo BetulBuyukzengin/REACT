@@ -131,11 +131,10 @@ function TodoProvider({ children }) {
     { todos, selectedTodo, isModalOpen, selectedSort, text, error, editedText },
     dispatch,
   ] = useReducer(reducer, initialState);
-
   useEffect(function () {
     const storedData = JSON.parse(localStorage.getItem("todos"));
-    if (!storedData) return;
-    return dispatch({ type: "get/todos", payload: storedData });
+    // if (!storedData) return;
+    if (storedData) return dispatch({ type: "get/todos", payload: storedData });
   }, []);
 
   useEffect(
