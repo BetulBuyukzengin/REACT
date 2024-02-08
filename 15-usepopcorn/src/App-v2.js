@@ -1,51 +1,5 @@
 import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
-// const tempMovieData = [
-//   {
-//     imdbID: "tt1375666",
-//     Title: "Inception",
-//     Year: "2010",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-//   },
-//   {
-//     imdbID: "tt0133093",
-//     Title: "The Matrix",
-//     Year: "1999",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-//   },
-//   {
-//     imdbID: "tt6751668",
-//     Title: "Parasite",
-//     Year: "2019",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-//   },
-// ];
-
-// const tempWatchedData = [
-//   {
-//     imdbID: "tt1375666",
-//     Title: "Inception",
-//     Year: "2010",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-//     runtime: 148,
-//     imdbRating: 8.8,
-//     userRating: 10,
-//   },
-//   {
-//     imdbID: "tt0088763",
-//     Title: "Back to the Future",
-//     Year: "1985",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-//     runtime: 116,
-//     imdbRating: 8.5,
-//     userRating: 9,
-//   },
-// ];
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -55,33 +9,10 @@ const KEY = "7ec2e548";
 export default function App() {
   const [query, setQuery] = useState(""); // Başlangıç değeri verildiğinde effect ilk renderlamada çalışacağından verilen değer gösterilir
   const [movies, setMovies] = useState([]);
-  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-
-  //  Effect types çalışma sırası
-  // İlk çalıştığında sıralama: 4-1-2-3
-  // Input a veri girildiğinde sıralama: 4-2-3
-  // useEffect(function () {
-  //   console.log("After initial render");
-  // }, []); //1
-  // useEffect(function () {
-  //   console.log("After every render");
-  // }); //2
-  // useEffect(
-  //   function () {
-  //     console.log("D");
-  //   },
-  //   [query]
-  // ); //3
-  // console.log("During render"); //4
-
-  //! Locale storage get
-  const [watched, setWatched] = useState(function () {
-    const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
-  });
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -95,13 +26,7 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-  //! Locale storage set
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-    },
-    [watched]
-  );
+
   useEffect(
     function () {
       //! Api isteklerini temizleme (iptal denetleyicisi)
@@ -160,17 +85,6 @@ export default function App() {
         <NumResults movies={movies} />
       </Navbar>
       <Main>
-        {/*  use react router !!!!! write element instead of child to Box component
-         <Box element={<MovieList movies={movies} />} />
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        /> */}
-        {/* use children !!!!!*/}
         <Box>
           {isLoading && <Loader />}
           {!isLoading && !error && (
@@ -259,29 +173,6 @@ function Box({ children }) {
     </div>
   );
 }
-/*
-function WatchedBox() {
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen2, setIsOpen2] = useState(true);
-
-  return (
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen2((open) => !open)}
-      >
-        {isOpen2 ? "–" : "+"}
-      </button>
-      {isOpen2 && (
-        <>
-          <WatchedSummary watched={watched} />
-
-          <WatchedMovieList watched={watched} />
-        </>
-      )}
-    </div>
-  );
-}*/
 
 function MovieList({ movies, onSelectMovie }) {
   return (
@@ -329,6 +220,32 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
+  // !!!!!!!!!!!!!  Hooks Kuralları  !!!!!!!!!!!!!!
+  //* 1- State leri koşul,loop,nested func içerisinde çağırmamalıyız.
+  //Hooks un sırasını bozar.
+  //eslinti disable hale getirir,yorum satırı içerinde kullan:
+  /*eslint-disable */
+  // if(imdbRating>8) [isTop,setIsTop]=useState(true);
+  //* 2- Hooks a erken return yapmamalıyız.
+  //Eksik hook oluşturur.
+  // if (imdbRating > 8) return <p>Greates ever!</p>;
+
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // const [isTop, setIsTop] = useState(imdbRating > 8);
+  // console.log(isTop);
+  // useEffect(
+  //   function () {
+  //     setIsTop(imdbRating > 0);
+  //   },
+  //   [imdbRating]
+  // );
+
+  //deriving
+  const isTop = imdbRating > 0;
+  console.log(isTop);
+  const [avgRating, setAvgRating] = useState(0);
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
   //İzlenen filmleri ekleme fonksiyonu
   function handleAdd() {
     const newWatchedMovie = {
@@ -342,6 +259,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     };
     onAddWatched(newWatchedMovie);
     onCloseMovie(); // İzlenenler listesine eklendikten sonra details ı kapat
+    // setAvgRating(+imdbRating);
+    // setAvgRating((avgRating) => (avgRating + userRating) / 2);
   }
   //escape tuşu ile detail sayfasını kapatma ve
   useEffect(
@@ -412,8 +331,10 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
                 <span>⭐️</span>
                 {imdbRating} IMDb rating
               </p>
+              {/* <p>{avgRating} </p> */}
             </div>
           </header>
+
           <section>
             <div className="rating">
               {!isWatched ? (
@@ -427,7 +348,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
                     <button className="btn-add" onClick={handleAdd}>
                       + Add to list
                     </button>
-                  )}{" "}
+                  )}
                 </>
               ) : (
                 <p>
