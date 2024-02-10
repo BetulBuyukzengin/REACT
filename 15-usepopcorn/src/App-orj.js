@@ -1,8 +1,7 @@
+//! Custom Hooks ı oluşturmadan önceki orjinal kod
 import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
-import { useMovies } from "./useMovies";
-import { useLocaleStorageState } from "./useLocalStorageState";
-import { useKey } from "./useKey";
+
 // const tempMovieData = [
 //   {
 //     imdbID: "tt1375666",
@@ -56,12 +55,12 @@ const KEY = "7ec2e548";
 
 export default function App() {
   const [query, setQuery] = useState(""); // Başlangıç değeri verildiğinde effect ilk renderlamada çalışacağından verilen değer gösterilir
-  // const [movies, setMovies] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
-  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); //! useMovies custom hook call
+  // const { movies, isLoading, error } = useMovies(query, handleCloseMovie); //custom hook call
 
   //  Effect types çalışma sırası
   // İlk çalıştığında sıralama: 4-1-2-3
@@ -81,11 +80,11 @@ export default function App() {
   // console.log("During render"); //4
 
   // //! Locale storage get
-  // const [watched, setWatched] = useState(function () {
-  //   const storedValue = localStorage.getItem("watched") || [];
-  //   return JSON.parse(storedValue);
-  // });
-  const [watched, setWatched] = useLocaleStorageState([], "watched");
+  const [watched, setWatched] = useState(function () {
+    const storedValue = localStorage.getItem("watched") || [];
+    return JSON.parse(storedValue);
+  });
+  // const [watched, setWatched] = useLocaleStorageState([], "watched");
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -100,12 +99,62 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
   // //! Locale storage set
-  // useEffect(
-  //   function () {
-  //     localStorage.setItem("watched", JSON.stringify(watched));
-  //   },
-  //   [watched]
-  // );
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
+  useEffect(
+    function () {
+      //! Api isteklerini temizleme (iptal denetleyicisi)
+      const controller = new AbortController();
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          //! iptal denetleyicisini bağlama {signal:controller.signal}
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
+          );
+          if (!res.ok)
+            throw new Error("Something went wrong with fetching movies");
+          const data = await res.json();
+
+          if (data.Response === "False") throw new Error("Movie not found");
+          // console.log(data.Search);
+          setMovies(data.Search);
+          setError(""); //! Cleanup for http request
+        } catch (err) {
+          //! Http istekleri temizlemede durdurulan istekleri hata olarak algılamaması için koşul ekledim.
+          if (err.name !== "AbortError") {
+            console.log(err.message);
+            setError(err.message);
+          }
+          // setIsLoading(false); burada kullanırsak kodu kopyalar
+        } finally {
+          //her zaman çalışacak alan
+          setIsLoading(false);
+        }
+      }
+
+      // if (!query.length) { sorgu yoksa
+      //3 den azsa arama yapma
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+        return; //? return kullanmazsam erro göstermeye devam ediyor
+      }
+      handleCloseMovie(); //* arama yapıldığında seçilen filmi kapat (details)
+      fetchMovies();
+      //! api isteklerini temizleme fonk.
+      return function () {
+        controller.abort();
+      };
+    },
+    [query]
+  );
 
   return (
     <>
@@ -191,28 +240,22 @@ function NumResults({ movies }) {
 function Search({ query, setQuery }) {
   //! ref ile dom ögesi seçme ve saklama - başlangıçta & enter tuşu ile input focus özellikli
   const inputEl = useRef(null);
-  //! useKey custom hook call for enter
-  useKey("Enter", function () {
-    if (document.activeElement === inputEl.current) return;
-    inputEl.current.focus();
-    setQuery("");
-  });
 
-  // useEffect(
-  //   function () {
-  //     function callback(e) {
-  //       if (document.activeElement === inputEl.current) return;
-  //       //! İnput focus olmadığında enterla setQuery boşaltma ve inputa focuslama
-  //       if (e.code === "Enter") {
-  //         inputEl.current.focus();
-  //         setQuery("");
-  //       }
-  //     }
-  //     document.addEventListener("keydown", callback);
-  //     return () => document.removeEventListener("keydown", callback); //! clean up
-  //   },
-  //   [setQuery]
-  // );
+  useEffect(
+    function () {
+      function callback(e) {
+        if (document.activeElement === inputEl.current) return;
+        //! İnput focus olmadığında enterla setQuery boşaltma ve inputa focuslama
+        if (e.code === "Enter") {
+          inputEl.current.focus();
+          setQuery("");
+        }
+      }
+      document.addEventListener("keydown", callback);
+      return () => document.removeEventListener("keydown", callback); //! clean up
+    },
+    [setQuery]
+  );
 
   return (
     <input
@@ -333,25 +376,24 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onAddWatched(newWatchedMovie);
     onCloseMovie(); // İzlenenler listesine eklendikten sonra details ı kapat
   }
-  useKey("Escape", onCloseMovie); //! useKey custom hook call for escape
   //escape tuşu ile detail sayfasını kapatma ve
-  // useEffect(
-  //   function () {
-  //     function callback(e) {
-  //       if (e.code === "Escape") {
-  //         onCloseMovie();
-  //       }
-  //     }
-  //     document.addEventListener("keydown", callback);
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
 
-  //     //! Dinleyici temizleme fonk , içerisindeki fonksiyon dinlediğimiz fonk. ile aynı olmalı
-  //     //* details kapalı olduğunda artık dinleyemeyecek
-  //     return function () {
-  //       document.removeEventListener("keydown", callback);
-  //     };
-  //   },
-  //   [onCloseMovie]
-  // );
+      //! Dinleyici temizleme fonk , içerisindeki fonksiyon dinlediğimiz fonk. ile aynı olmalı
+      //* details kapalı olduğunda artık dinleyemeyecek
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
+  );
 
   useEffect(
     function () {
