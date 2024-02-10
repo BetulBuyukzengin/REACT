@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 // const tempMovieData = [
 //   {
@@ -77,9 +77,9 @@ export default function App() {
   // ); //3
   // console.log("During render"); //4
 
-  //! Locale storage get
+  // //! Locale storage get
   const [watched, setWatched] = useState(function () {
-    const storedValue = localStorage.getItem("watched");
+    const storedValue = localStorage.getItem("watched") || [];
     return JSON.parse(storedValue);
   });
 
@@ -95,7 +95,7 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-  //! Locale storage set
+  // //! Locale storage set
   useEffect(
     function () {
       localStorage.setItem("watched", JSON.stringify(watched));
@@ -235,6 +235,25 @@ function NumResults({ movies }) {
   );
 }
 function Search({ query, setQuery }) {
+  //! ref ile dom ögesi seçme ve saklama - başlangıçta & enter tuşu ile input focus özellikli
+  const inputEl = useRef(null);
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (document.activeElement === inputEl.current) return;
+        //! İnput focus olmadığında enterla setQuery boşaltma ve inputa focuslama
+        if (e.code === "Enter") {
+          inputEl.current.focus();
+          setQuery("");
+        }
+      }
+      document.addEventListener("keydown", callback);
+      return () => document.removeEventListener("keydown", callback); //! clean up
+    },
+    [setQuery]
+  );
+
   return (
     <input
       className="search"
@@ -242,6 +261,7 @@ function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
     />
   );
 }
@@ -312,8 +332,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState(""); //Kullanıcı puanlaması için
 
-  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
-  const watchedUserRating = watched.find(
+  const isWatched = watched?.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched?.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
   const {
@@ -449,9 +469,10 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   );
 }
 function WatchedSummary({ watched }) {
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  if (!watched) return;
+  const avgImdbRating = average(watched?.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched?.map((movie) => movie.userRating));
+  const avgRuntime = average(watched?.map((movie) => movie.runtime));
 
   return (
     <div className="summary">
@@ -480,7 +501,7 @@ function WatchedSummary({ watched }) {
 function WatchedMovieList({ watched, onDeleteWatched }) {
   return (
     <ul className="list">
-      {watched.map((movie) => (
+      {watched?.map((movie) => (
         <WatchedMovie movie={movie} onDeleteWatched={onDeleteWatched} />
       ))}
     </ul>
