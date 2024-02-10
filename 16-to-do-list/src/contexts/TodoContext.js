@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import toast from "react-hot-toast";
 // const todos = [
 //   {
@@ -27,8 +34,8 @@ const initialState = {
   isModalOpen: false,
   selectedSort: "",
   text: "",
-  error: false,
   editedText: "",
+  showTextModal: false,
 };
 function reducer(state, action) {
   switch (action.type) {
@@ -49,7 +56,7 @@ function reducer(state, action) {
         ...state,
         todos: state.todos.filter((todo) => action.payload !== todo.id),
       };
-    case "all/delete/todo":
+    case "complated/delete/todo":
       return { ...state, todos: state.todos.filter((todo) => !todo.checked) };
     case "checked/todo":
       return {
@@ -61,13 +68,12 @@ function reducer(state, action) {
         ),
       };
 
-    // save
     case "edit/todo":
       return {
         ...state,
         isModalOpen: false,
         todos: state.todos.map((item) =>
-          state.selectedTodo.id === item.id
+          state.selectedTodo.id === item?.id
             ? { ...item, description: state.editedText }
             : item
         ),
@@ -118,6 +124,13 @@ function reducer(state, action) {
       return {
         ...state,
         isModalOpen: false,
+        showTextModal: false,
+      };
+    case "show/text/modal":
+      return {
+        ...state,
+        showTextModal: true,
+        selectedTodo: state.todos.find((todo) => action.payload === todo.id),
       };
     default:
       return state;
@@ -128,7 +141,15 @@ const TodoContext = createContext();
 
 function TodoProvider({ children }) {
   const [
-    { todos, selectedTodo, isModalOpen, selectedSort, text, error, editedText },
+    {
+      todos,
+      selectedTodo,
+      isModalOpen,
+      selectedSort,
+      text,
+      editedText,
+      showTextModal,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
   useEffect(function () {
@@ -136,6 +157,7 @@ function TodoProvider({ children }) {
     // if (!storedData) return;
     if (storedData) return dispatch({ type: "get/todos", payload: storedData });
   }, []);
+  const [error, setError] = useState(false);
 
   useEffect(
     function () {
@@ -151,12 +173,23 @@ function TodoProvider({ children }) {
     [selectedSort]
   );
 
+  useEffect(
+    function () {
+      text.length > 0 && setError(false);
+    },
+    [text.length]
+  );
+
   function handleSortTodos(selected) {
     dispatch({ type: "sort/todo", payload: selected });
   }
+
   function handleSubmit(e) {
     e.preventDefault();
-    if (text.length < 1) return toast.error("Can't add empty to do");
+    if (text.length < 1) {
+      setError(true);
+      return toast.error("Can't add empty to do");
+    }
 
     const newItem = {
       id: Math.random().toString(36).substr(2, 10),
@@ -164,11 +197,12 @@ function TodoProvider({ children }) {
       checked: false,
       createdAt: new Date().toDateString(),
     };
-    console.log(newItem.id);
+
+    // console.log(newItem.id);
     dispatch({ type: "add/todo", payload: newItem });
     toast.success("Successfully added");
   }
-  // console.log(editedText);
+
   function handleEdit() {
     console.log(editedText);
     if (editedText.length < 1) return toast.error("Can't add empty to do");
@@ -182,13 +216,16 @@ function TodoProvider({ children }) {
     dispatch({ type: "delete/todo", payload: id });
     toast.success("Successfully deleted");
   }
-  function handleAllDelete() {
-    dispatch({ type: "all/delete/todo" });
-    toast.success("Successfully deleted complated to do's");
+  function handleComplatedDelete() {
+    dispatch({ type: "complated/delete/todo" });
+    toast.success("Successfully deleted complated todos");
   }
   function handleCheckedTodo(id) {
     dispatch({ type: "checked/todo", payload: id });
     toast.success("State is changed");
+  }
+  function handleShowTextModal(id) {
+    dispatch({ type: "show/text/modal", payload: id });
   }
   // console.log(selectedSort);
   return (
@@ -199,7 +236,6 @@ function TodoProvider({ children }) {
         isModalOpen,
         selectedSort,
         text,
-        error,
         editedText,
         dispatch,
         handleSubmit,
@@ -207,8 +243,11 @@ function TodoProvider({ children }) {
         handleDelete,
         handleCloseModal,
         handleCheckedTodo,
-        handleAllDelete,
+        handleComplatedDelete,
         handleSortTodos,
+        handleShowTextModal,
+        showTextModal,
+        error,
       }}
     >
       {children}

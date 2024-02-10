@@ -12,7 +12,7 @@ code {
     monospace;
 }
 .app {
-  margin: 1rem;
+  /* margin: 1rem; */
   /* display: grid; */
   /* place-items: "center"; */
   /* display: flex;
@@ -47,39 +47,13 @@ code {
   border-radius: 15px;
   border: 3px dashed #e61414;
 }
-/* .button-stack {
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-} */
-/* phone 600 px
-@media only screen and (max-width: 37.5em) {
-  .toDoList {
-    width: 100%;
-  }
-  .app {
-    width: 100%;
-  }
-  .button-stack {
-    flex-direction: column;
-  }
-}
-/* 
-tab-port 900px 
-@media only screen and (max-width: 56.25em) {
-}
-
-/tab-land 1200 px 
-@media only screen and (max-width: 75em) {
-}
-
-/ big-desktop 1800 px 
-@media only screen and (min-width: 112.5em) {
-} */
 
 .MuiButton-startIcon {
-  margin: 0;
+  margin: 0 !important;
 }
 .css-1d6wzja-MuiButton-startIcon {
   margin: 0 !important;
+}
+.disabled {
+  opacity: 0.5;
 }

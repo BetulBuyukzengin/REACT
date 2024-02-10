@@ -12,7 +12,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import Typography from "@mui/material/Typography"; //for fontsize
 import Modal from "@mui/material/Modal";
 import InputLabel from "@mui/material/InputLabel";
@@ -21,30 +21,29 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import { TodoProvider, useList } from "./contexts/TodoContext";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 export default function App() {
-  // function handleChecked(id) {
-  //   setTodos(
-  //     todos.map((todo) =>
-  //       id === todo.id ? { ...todo, checked: !todo.checked } : todo
-  //     )
-  //   );
-  // }
-
-  // function handleAllDelete() {
-  //   setTodos((prevTodos) => prevTodos.filter((todo) => !todo.checked));
-  // }
-
   return (
     <TodoProvider>
-      <Box sx={{ display: "grid", placeItems: "center" }}>
+      <Box
+        sx={{
+          display: "grid",
+          placeItems: window.innerWidth > 600 && "center",
+          placeContent: window.innerWidth < 600 && "center",
+          // width: 100,
+          height: "100vh",
+        }}
+        fullWidth
+      >
         <Grid
           container
           className="app"
           sx={{
+            placeContent: "center",
             width: {
               xs: "100%", // Ekran küçük olduğunda
-              sm: "80%", // Küçük ekranlarda (small)
+              sm: "100%", // Küçük ekranlarda (small)
               md: "70%", // Orta ekranlarda (medium)
               lg: "50%", // Büyük ekranlarda (large)
             },
@@ -57,13 +56,19 @@ export default function App() {
               duration: 5000,
             }}
           />
+          {/* xs={12} */}
           <Grid xs={12}>
-            <ToDoList className="toDoList" />
+            <ToDoList
+              className="toDoList"
+              // sx={{ m: window.innerWidth < 600 && 0 }}
+            />
           </Grid>
-          <Grid xs={12}>
+          <Grid
+            xs={window.innerWidth > 600 ? 12 : 6}
+            sx={{ marginTop: window.innerWidth < 600 && `${3}rem` }}
+          >
             <ListAdd />
           </Grid>
-          {/* <BasicModal /> */}
         </Grid>
       </Box>
     </TodoProvider>
@@ -71,7 +76,7 @@ export default function App() {
 }
 
 function ToDoList() {
-  const { todos, isModalOpen } = useList();
+  const { todos, isModalOpen, showTextModal } = useList();
 
   return (
     <Stack
@@ -96,14 +101,40 @@ function ToDoList() {
         <Stack
           sx={{ display: "flex", flexDirection: "row", justifyContent: "end" }}
         >
+          {window.innerWidth > 600 && (
+            <p
+              style={{
+                width: "40%",
+                color: "#1A77D2",
+
+                // color: "#11009E",
+                fontWeight: "bolder",
+                letterSpacing: "3px",
+                fontSize: "20px",
+                fontFamily: "Protest Strike, sans-serif",
+              }}
+            >
+              TODO
+              <span
+                style={{
+                  color: "#D32F2F",
+                  fontSize: "23px",
+                }}
+              >
+                LIST
+              </span>
+            </p>
+          )}
+
           <Grid
             xs={window.innerWidth > 600 ? 12 : 6}
             md={window.innerWidth > 600 ? 12 : 4}
             sx={{ display: "inherit", justifyContent: "end" }}
           >
             <BasicSelect />
-            <AllDeleteBtn />
-            {isModalOpen && <BasicModal />}
+            <ComplatedDeleteBtn />
+            {isModalOpen && <EditModal />}
+            {showTextModal && <ShowTextModal />}
           </Grid>
         </Stack>
         {!todos?.length ? (
@@ -118,7 +149,7 @@ function ToDoList() {
   );
 }
 function ListAdd() {
-  const { handleSubmit, dispatch, text } = useList(); //context ten func çağırma
+  const { handleSubmit, dispatch, text, error } = useList(); //context communication
 
   return (
     <Box
@@ -156,6 +187,7 @@ function ListAdd() {
 
       <TextField
         value={text}
+        error={error}
         onChange={(e) =>
           dispatch({ type: "text/value", payload: e.target.value })
         }
@@ -171,19 +203,17 @@ function ListAdd() {
         }
         variant="outlined"
         sx={{
-          width: window.innerWidth > 600 ? `${65}ch` : `${50}ch`,
+          width: window.innerWidth > 600 ? `${65}ch` : `${40}ch`,
         }}
         helperText={
           <Typography
             sx={{
-              fontSize: window.innerWidth > 600 ? `${0.8}rem` : `${0.5}rem`,
+              fontSize: window.innerWidth > 600 ? `${0.8}rem` : `${0.7}rem`,
             }}
           >
             Please enter some todos
           </Typography>
         }
-        // error={Boolean(error)
-        // }
       />
     </Box>
   );
@@ -214,9 +244,8 @@ function CheckTodos() {
     </Stack>
   );
 }
-//sorted func
 function BasicSelect() {
-  const { dispatch, handleSortTodos, selectedSort, todos } = useList();
+  const { handleSortTodos, selectedSort, todos } = useList();
 
   return (
     <Box
@@ -229,6 +258,7 @@ function BasicSelect() {
       <FormControl fullWidth>
         <InputLabel
           id="demo-simple-select-label"
+          size="small"
           sx={{
             textAlign: "center",
             display: "grid",
@@ -257,8 +287,12 @@ function BasicSelect() {
 }
 
 //All Delete Btn
-function AllDeleteBtn() {
-  const { todos, handleAllDelete } = useList();
+function ComplatedDeleteBtn() {
+  const { todos, handleComplatedDelete } = useList();
+  // const isAnyChecked = todos.filter((todo) => todo.checked);
+  const isAnyChecked = todos.find((todo) => todo.checked);
+
+  console.log(isAnyChecked);
   return (
     <Stack
       direction="row"
@@ -272,24 +306,39 @@ function AllDeleteBtn() {
         size="small"
         color="error"
         startIcon={<DeleteIcon />}
-        onClick={handleAllDelete}
-        disabled={!todos?.length}
+        onClick={handleComplatedDelete}
+        disabled={!todos?.length || !isAnyChecked}
       >
-        Clear Completed ones
+        {window.innerWidth > 600 ? "  Clear Completed ones" : "Completed"}
       </Button>
     </Stack>
   );
 }
 
 function ListFolder({ onCheck }) {
-  const { todos, dispatch, handleDelete } = useList();
+  const { todos, dispatch, handleDelete, handleShowTextModal } = useList();
+
   return todos.map((item) => (
     <>
-      <ListItem className="listItem" key={Math.random().toString(36)}>
+      <ListItem
+        sx={{
+          paddingLeft: window.innerWidth < 600 && 0,
+          paddingRight: window.innerWidth < 600 && 0,
+        }}
+        className="listItem"
+        key={Math.random().toString(36)}
+      >
         <ControlledCheckbox id={item.id} checked={item.checked} />
-        <ListItemText primary={item.description} secondary={item.createdAt}>
-          {item.description}
-        </ListItemText>
+        <ListItemText
+          className={item.checked ? "disabled" : ""}
+          primary={
+            item.description.length > 20
+              ? item.description.slice(0, 20) + "..."
+              : item.description
+          }
+          secondary={item.createdAt}
+        ></ListItemText>
+
         <Stack
           sx={{
             gap: "0.5rem",
@@ -300,10 +349,28 @@ function ListFolder({ onCheck }) {
             margin: "0",
           }}
         >
+          {item.description.length > 20 && (
+            <Button
+              onClick={() => handleShowTextModal(item.id)}
+              variant="outlined"
+              color="secondary"
+              sx={{
+                p: window.innerWidth < 600 ? "0.5rem 0" : "0.5rem 1rem",
+                minWidth: window.innerWidth < 600 ? "45px" : "64px",
+              }}
+              size="small"
+            >
+              <ReadMoreIcon />
+            </Button>
+          )}
           <Button
+            disabled={item.checked}
             variant="outlined"
             startIcon={<EditIcon />}
-            sx={{ p: "0.5rem 1rem" }}
+            sx={{
+              p: window.innerWidth < 600 ? "0.5rem 0" : "0.5rem 1rem",
+              minWidth: window.innerWidth < 600 ? "45px" : "64px",
+            }}
             size="small"
             onClick={() =>
               dispatch({ type: "edit/modal/todo", payload: item.id })
@@ -311,11 +378,14 @@ function ListFolder({ onCheck }) {
           >
             {window.innerWidth > 600 && "EDIT"}
           </Button>
-
           <Button
+            disabled={item.checked}
             variant="outlined"
             color="error"
-            sx={{ p: "0.5rem 1rem" }}
+            sx={{
+              p: window.innerWidth < 600 ? "0.5rem 0" : "0.5rem 1rem",
+              minWidth: window.innerWidth < 600 ? "45px" : "64px",
+            }}
             size="small"
             onClick={() => handleDelete(item.id)}
             startIcon={<DeleteIcon />}
@@ -329,8 +399,47 @@ function ListFolder({ onCheck }) {
   ));
 }
 
-function BasicModal() {
-  const { isModalOpen, dispatch, handleEdit, handleCloseModal, editedText } =
+function ShowTextModal() {
+  const { showTextModal, handleCloseModal, selectedTodo } = useList();
+  return (
+    <Modal
+      open={showTextModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          boxShadow: 14,
+          borderRadius: "10px",
+          p: 4,
+        }}
+      >
+        <Typography id="modal-modal-description" sx={{ m: 2 }}>
+          {selectedTodo?.description}
+        </Typography>
+
+        <Button
+          variant="outlined"
+          sx={{ p: "0.5rem 1rem", ml: "1rem" }}
+          size="small"
+          onClick={handleCloseModal}
+          color="error"
+        >
+          Cancel
+        </Button>
+      </Box>
+    </Modal>
+  );
+}
+
+function EditModal() {
+  const { isModalOpen, dispatch, handleEdit, handleCloseModal, selectedTodo } =
     useList();
 
   return (
@@ -354,7 +463,7 @@ function BasicModal() {
       >
         <Typography id="modal-modal-description" sx={{ m: 2 }}>
           <TextField
-            value={editedText}
+            defaultValue={selectedTodo?.description}
             label="Edit Todo"
             variant="outlined"
             sx={{ width: "100%" }}
