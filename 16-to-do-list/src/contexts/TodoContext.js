@@ -4,7 +4,6 @@ import {
   useReducer,
   useEffect,
   useState,
-  useRef,
 } from "react";
 import toast from "react-hot-toast";
 // const todos = [
@@ -198,7 +197,6 @@ function TodoProvider({ children }) {
       createdAt: new Date().toDateString(),
     };
 
-    // console.log(newItem.id);
     dispatch({ type: "add/todo", payload: newItem });
     toast.success("Successfully added");
   }
@@ -227,7 +225,6 @@ function TodoProvider({ children }) {
   function handleShowTextModal(id) {
     dispatch({ type: "show/text/modal", payload: id });
   }
-  // console.log(selectedSort);
   return (
     <TodoContext.Provider
       value={{
@@ -254,7 +251,7 @@ function TodoProvider({ children }) {
     </TodoContext.Provider>
   );
 }
-//Oluşturduğum contexti(yani TodoContext) custom hook içerisinde kullanmamı sağlıyor
+//! Oluşturduğum contexti(yani TodoContext) custom hook içerisinde kullanmamı sağlıyor
 function useList() {
   const context = useContext(TodoContext);
   if (context === undefined)

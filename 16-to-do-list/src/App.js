@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Paper, Stack } from "@mui/material";
 import Icon from "@mui/material/Icon";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,7 +12,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import { Toaster } from "react-hot-toast";
-import Typography from "@mui/material/Typography"; //for fontsize
+import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -31,7 +30,6 @@ export default function App() {
           display: "grid",
           placeItems: window.innerWidth > 600 && "center",
           placeContent: window.innerWidth < 600 && "center",
-          // width: 100,
           height: "100vh",
         }}
         fullWidth
@@ -42,10 +40,10 @@ export default function App() {
           sx={{
             placeContent: "center",
             width: {
-              xs: "100%", // Ekran küçük olduğunda
-              sm: "100%", // Küçük ekranlarda (small)
-              md: "70%", // Orta ekranlarda (medium)
-              lg: "50%", // Büyük ekranlarda (large)
+              xs: "100%",
+              sm: "100%",
+              md: "70%",
+              lg: "50%",
             },
           }}
         >
@@ -56,12 +54,8 @@ export default function App() {
               duration: 5000,
             }}
           />
-          {/* xs={12} */}
           <Grid xs={12}>
-            <ToDoList
-              className="toDoList"
-              // sx={{ m: window.innerWidth < 600 && 0 }}
-            />
+            <ToDoList className="toDoList" />
           </Grid>
           <Grid
             xs={window.innerWidth > 600 ? 12 : 6}
@@ -104,10 +98,8 @@ function ToDoList() {
           {window.innerWidth > 600 && (
             <p
               style={{
-                width: "40%",
+                width: "18%",
                 color: "#1A77D2",
-
-                // color: "#11009E",
                 fontWeight: "bolder",
                 letterSpacing: "3px",
                 fontSize: "20px",
@@ -251,7 +243,7 @@ function BasicSelect() {
     <Box
       sx={{
         minWidth: 125,
-        m: "1rem 0.6rem 0 0",
+        m: "1rem 0.6rem 0 0.6rem",
         display: "inline-block",
       }}
     >
@@ -309,7 +301,7 @@ function ComplatedDeleteBtn() {
         onClick={handleComplatedDelete}
         disabled={!todos?.length || !isAnyChecked}
       >
-        {window.innerWidth > 600 ? "  Clear Completed ones" : "Completed"}
+        {window.innerWidth > 600 ? "  Clear Completed" : "Completed"}
       </Button>
     </Stack>
   );
