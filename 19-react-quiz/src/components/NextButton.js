@@ -1,4 +1,4 @@
-export default function NewButton({ dispatch, answer, numQuestions, index }) {
+export default function NextButton({ dispatch, answer, numQuestions, index }) {
   if (answer === null) return null;
 
   //next button
