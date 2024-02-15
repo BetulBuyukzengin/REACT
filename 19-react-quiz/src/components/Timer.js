@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export default function Timer({ dispatch, secondsRemaining }) {
-  //dakika sn cinsinden yazma
+  //* Dakika sn cinsinden yazma
   const mins = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
 
