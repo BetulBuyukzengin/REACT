@@ -5,29 +5,56 @@ import Homepage from "./pages/Homepage";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 import Login from "./pages/Login";
+import CityList from "./components/CityList";
+import { useEffect, useState } from "react";
+
+const BASE_URL = "https://localhost:8000";
 
 function App() {
+  const [cities, setCities] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(cities);
+  useEffect(function () {
+    async function fetchCities() {
+      try {
+        setIsLoading(true);
+        const res = await fetch(`${BASE_URL}/cities`);
+        const data = await res.json();
+        setCities(data);
+        console.log(data);
+      } catch {
+        alert("There was an error loading data ... ");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchCities();
+  }, []);
+
   return (
-    <div>
-      <h1>Welcome the Router Project</h1>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="product" element={<Product />} />
-          <Route path="pricing" element={<Pricing />} />
-          <Route path="login" element={<Login />} />
-          <Route path="app" element={<AppLayout />}>
-            <Route index element={<p>List of cities</p>} />
-            {/* Child Routes */}
-            <Route path="cities" element={<p> cities</p>} />
-            <Route path="countries" element={<p>Countries</p>} />
-            <Route path="form" element={<p>Form</p>} />
-          </Route>
-          {/* URL diğer route lar * eşleşmiyor ise bu PageNotFound sayfası görünecek.  */}
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="product" element={<Product />} />
+        <Route path="pricing" element={<Pricing />} />
+        <Route path="login" element={<Login />} />
+        <Route path="app" element={<AppLayout />}>
+          <Route
+            index
+            element={<CityList cities={cities} isLoading={isLoading} />}
+          />
+          {/* Child Routes */}
+          <Route
+            path="cities"
+            element={<CityList cities={cities} isLoading={isLoading} />}
+          />
+          <Route path="countries" element={<p>Countries</p>} />
+          <Route path="form" element={<p>Form</p>} />
+        </Route>
+        {/* URL diğer route lar * eşleşmiyor ise bu PageNotFound sayfası görünecek.  */}
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
