@@ -11,6 +11,7 @@ function CityItem({ city }) {
   const { cityName, emoji, date, id, position } = city;
   return (
     <li>
+      {/* to & query string for URL */}
       <Link
         className={styles.cityItem}
         to={`${id}?lat=${position.lat}&${position.lng}`}
