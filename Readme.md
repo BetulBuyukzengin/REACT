@@ -93,5 +93,7 @@ tek yerde birleştirir.*
       `<Route path="product" element={<Product />} />`<br>
    `</Routes>`<br>
 `</BrowserRouter>`<br>
-* <Link> bileşenleri, kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. 
-  `<Link to="/pricing">Pricing</Link>`
+* Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. 
+
+ 
+
