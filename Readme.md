@@ -71,4 +71,27 @@ tek yerde birleştirir.*
  * State güncellemesini dispatch ile tetikleriz.
    
 ## Router:
-
+* Bir Single Page Application (SPA) içinde sayfa değişikliklerini yönetmek için kullanılan bir kütüphanedir. 
+* Router ile farklı URL leri farklı UI görünümleriyle (componentleri) eşleştiririz. Böylece, kullanıcıların tarayıcı URL sini kullanarak farklı uygulama ekranları arasında gezinmesine olanak tanır.
+* Tek sayfalı uygulamalar oluşturmamızı sağlar.
+* Sayfa içeriği değişirken, React DOM, Virtual DOM üzerinden etkili bir şekilde gerçek DOM'u günceller. Bu, kullanıcıya daha hızlı bir kullanıcı deneyimi sunar, çünkü sadece değişen kısımların güncellenmesi 
+  gerekir.
+* Kullanıcı arayüzünü geçerli tarayıcı URL siyle senkronize tutar.
+* Web API'lerinden veri almak ve bu veriyi kullanarak sayfa içeriğini güncellemek de mümkündür.
+* npm i react-router-dom ile kurulum yapılır.
+  ### Single Page Application (SPA):
+  * Web uygulamalarının geleneksel çok sayfalı yapı yerine tek bir HTML sayfasında yüklenen ve dinamik olarak içeriği değiştiren; istemcide yani kullanıcının web tarayıcısında tamamen yürütülen bir tür
+    web uygulama mimarisini ifade eder.
+  * SPA'lar, sayfalar arasında geçiş yaparken tarayıcıda tam bir sayfa yeniden yüklemesi yapmazlar. Bunun yerine, React Router gibi yönlendirme kütüphaneleri kullanılarak tarayıcıdaki URL'yi değiştirmek ve 
+    uygun React bileşenlerini göstermek suretiyle sayfa içeriğini dinamik olarak güncellerler.
+  ### Routes:
+  * Bir web uygulamasında belirli URL yolları ile ilişkilendirilen sayfaların veya bileşenlerin tanımlandığı bir kavramdır. Bu, genellikle bir web uygulamasının gezinme yapısını yönetmek ve belirli URL'lere 
+  karşılık gelen içeriği göstermek için kullanılır.<br>
+  Basitçe Router yapısı: <br>
+`<BrowserRouter>`<br>
+   `<Routes>` <br>
+      `<Route path="product" element={<Product />} />`<br>
+   `</Routes>`<br>
+`</BrowserRouter>`<br>
+* <Link> bileşenleri, kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. 
+  `<Link to="/pricing">Pricing</Link>`
