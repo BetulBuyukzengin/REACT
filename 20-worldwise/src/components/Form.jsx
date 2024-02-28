@@ -19,7 +19,7 @@ export function convertToEmoji(countryCode) {
     .map((char) => 127397 + char.charCodeAt());
   return String.fromCodePoint(...codePoints);
 }
-const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode";
+const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
 function Form() {
   const [cityName, setCityName] = useState("");
@@ -49,7 +49,9 @@ function Form() {
             throw new Error(
               "That doesn't seem to be a city. Click somewhere else"
             );
-          setCityName(data.name || data.locality || "");
+          // setCityName(data.name || data.locality || "");
+          setCityName(data.city || data.locality || "");
+
           setCountry(data.countryName);
           // setEmoji(convertToEmoji(data.countryCode));
         } catch (err) {
@@ -62,18 +64,21 @@ function Form() {
     },
     [lat, lng]
   );
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+
+    if (!cityName || !date) return;
+
+    const newCity = {
+      cityName,
+      country,
+      date,
+      notes,
+      position: { lat, lng },
+    };
+    await createCity(newCity);
   }
-  if (!cityName || !date) return;
-  const newCity = {
-    cityName,
-    country,
-    date,
-    notes,
-    position: { lat, lng },
-  };
-  createCity(newCity);
+
   if (isLoadingGeocoding) return <Spinner />;
   if (!lat && !lng)
     return <Message message="Start by clicking somewhere on the map" />;

@@ -39,6 +39,20 @@ function CitiesProvider({ children }) {
     }
   }
 
+  // const getCity = useCallback(async function getCity(id) {
+  //   // If looking at the same city, then don't call api again, remember id comes from URL, its string.
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/cities/${id}`);
+  //     const data = await res.json();
+  //     setCurrentCity(data);
+  //   } catch (err) {
+  //     console.log("There was an error loading data ... ");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, []);
+
   // Yeni city oluşturma - api ye post işlevi
   async function createCity(newCity) {
     try {
@@ -52,7 +66,8 @@ function CitiesProvider({ children }) {
         },
       });
       const data = await res.json();
-      setCurrentCity(data);
+      // setCurrentCity(data);
+      console.log(data);
     } catch {
       alert("There was an error loading data ... ");
     } finally {
