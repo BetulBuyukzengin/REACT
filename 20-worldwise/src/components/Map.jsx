@@ -1,4 +1,6 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUrlPosition } from "../hooks/useUrlPosition";
+
 import {
   MapContainer,
   TileLayer,
@@ -16,16 +18,13 @@ import Button from "./Button";
 function Map() {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState([40, 0]);
-  // read location from URL
-  const [searchParams] = useSearchParams();
   const {
     isLoading: isLoadingPosition,
     position: geolocationPosition,
     getPosition,
   } = useGeolocation();
 
-  const mapLat = searchParams.get("lat");
-  const mapLng = searchParams.get("lng");
+  const [mapLat, mapLng] = useUrlPosition();
 
   //! Seçilen şehrin konumu gösterildikten sonra bir önceki sayfaya geçmek için butona tıkladığımızda önceki pozisyon haritada aynı kalacak:
   //!  mapLat ve mapLng u senkronize tutuyor:
