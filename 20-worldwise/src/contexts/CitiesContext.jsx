@@ -68,6 +68,8 @@ function CitiesProvider({ children }) {
       const data = await res.json();
       // setCurrentCity(data);
       console.log(data);
+      //! Showing the information entered from the form on the screen
+      setCities((cities) => [...cities, data]);
     } catch {
       alert("There was an error loading data ... ");
     } finally {
