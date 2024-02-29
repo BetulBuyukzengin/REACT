@@ -11,7 +11,9 @@ import { useUrlPosition } from "../hooks/useUrlPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";
 import { useCities } from "../contexts/CitiesContext";
+import { useNavigate } from "react-router-dom";
 
+const KEY = "bdc_fad2b8682b3149429229145ad873a33c";
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
     .toUpperCase()
@@ -19,12 +21,13 @@ export function convertToEmoji(countryCode) {
     .map((char) => 127397 + char.charCodeAt());
   return String.fromCodePoint(...codePoints);
 }
-const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
-
+// const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
+const BASE_URL = `https://api-bdc.net/data/reverse-geocode`;
+// https://api-bdc.net/data/reverse-geocode?latitude=-34.93129&longitude=138.59669&localityLanguage=en&key=[YOUR API KEY]
 function Form() {
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
-  const { createCity } = useCities();
+  const { createCity, isLoading } = useCities();
   // const [emoji, setEmoji] = useState("");
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
@@ -32,6 +35,7 @@ function Form() {
   const [lat, lng] = useUrlPosition();
   const [isLoadingGeocoding, setIsLoadingGeocoding] = useState(false);
   const [geocodingError, setGeocodingError] = useState("");
+  const navigate = useNavigate();
   useEffect(
     function () {
       if (!lat && !lng) return;
@@ -40,7 +44,7 @@ function Form() {
           setIsLoadingGeocoding(true);
           setGeocodingError("");
           const res = await fetch(
-            `${BASE_URL}?latitude=${lat}&longitude=${lng}`
+            `${BASE_URL}?latitude=${lat}&longitude=${lng}&key=${KEY}`
           );
           const data = await res.json();
           console.log(data);
@@ -77,6 +81,8 @@ function Form() {
       position: { lat, lng },
     };
     await createCity(newCity);
+    //! redirect when form submitted
+    navigate("/app/cities");
   }
 
   if (isLoadingGeocoding) return <Spinner />;
@@ -84,7 +90,10 @@ function Form() {
     return <Message message="Start by clicking somewhere on the map" />;
   if (geocodingError) return <Message message={geocodingError} />;
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form
+      className={`${styles.form} ${isLoading ? styles.loading : ""}`}
+      onSubmit={handleSubmit}
+    >
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input
