@@ -34,39 +34,6 @@
         "lat": "39.19820534889482",
         "lng": "-4.987792968750001"
       }
-    },
-    {
-      "id": "6147",
-      "cityName": "Madrid",
-      "country": "Spain",
-      "date": "2024-02-29T12:05:45.234Z",
-      "notes": "Çok eğlendim",
-      "position": {
-        "lat": "40.41976938144622",
-        "lng": "-3.6529541015625004"
-      }
-    },
-    {
-      "id": "38a2",
-      "cityName": "Mugla",
-      "country": "Turkiye",
-      "date": "2024-02-29T12:08:34.698Z",
-      "notes": "Mükemmel bir tatildi",
-      "position": {
-        "lat": "37.260938147754544",
-        "lng": "28.460083007812504"
-      }
-    },
-    {
-      "id": "c61f",
-      "cityName": "Vilafames",
-      "country": "Spain",
-      "date": "2024-02-29T12:26:36.181Z",
-      "notes": "Nice",
-      "position": {
-        "lat": "40.10328591293442",
-        "lng": "-0.11535644531250001"
-      }
     }
   ]
 }
