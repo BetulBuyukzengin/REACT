@@ -63,6 +63,8 @@ function reducer(state, action) {
         ...state,
         secondsRemaining: state.secondsRemaining - 1,
         status: state.secondsRemaining === 0 ? "finished" : state.status,
+        highScore:
+          state.points > state.highScore ? state.points : state.highScore,
       };
     default:
       throw new Error("Action unknown");
