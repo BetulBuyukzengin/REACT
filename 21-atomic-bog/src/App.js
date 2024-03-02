@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PostProvider, usePosts } from "./PostProvider";
+// import Test from "./Test";
 
 function App() {
   const [isFakeDark, setIsFakeDark] = useState(false);
@@ -115,14 +116,17 @@ function FormAddPost() {
 function List() {
   const { searchedPosts } = usePosts();
   return (
-    <ul>
-      {searchedPosts.map((post, i) => (
-        <li key={i}>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {searchedPosts.map((post, i) => (
+          <li key={i}>
+            <h3>{post.title}</h3>
+            <p>{post.body}</p>
+          </li>
+        ))}
+      </ul>
+      {/* <Test /> */}
+    </>
   );
 }
 
