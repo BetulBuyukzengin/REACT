@@ -94,6 +94,13 @@ tek yerde birleştirir.*
    `</Routes>`<br>
 `</BrowserRouter>`<br>
 * Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. 
-
+# Performans Optimizasyonu
+ * React uygulamalarının performansını optimize etmek için odaklanacağımız 3 ana dal var:
+   * Renderların boşa harcanmasını engellemek. (Prevent wasted renders):
+    * memo, useMemo, useCallback, elementleri children ya da prop olarak geçmek 
+   * Genel uygulama hızını arttırmak. (Improve app speed / responsiveness)
+    * useMemo, useCallback, useTransition 
+   * Paket boyutunu azaltmak.(Reduce bundle size)
+    * 3.taraf kütüphaneler kullanmak , code splitting ve lazy loading (import)
  
 
