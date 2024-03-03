@@ -102,5 +102,18 @@ tek yerde birleştirir.*
     * useMemo, useCallback, useTransition 
    * Paket boyutunu azaltmak.(Reduce bundle size)
     * 3.taraf kütüphaneler kullanmak , code splitting ve lazy loading (import)
- 
+ ---
+# REDUX :
+ * Bir web uygulamasında global state i yönetmek için kullandığımız 3. taraf kütüphanedir.
+ * Uygulamamızdaki tüm global state, global olarak erişilebilen yerde ( globally accessible store) saklanır ve action ile güncellenir. Tıpkı useReducer gibi.
+ * Global store güncellenir güncellenmez bazı verileri tüketen tüm react bileşenleri store dan yeninden renderlanacak. (Context api ile useReducer ı birleştirmeye benzer).
+ * Redux ı kullanmanın 2 yolu var
+   * 1- Classic Redux
+   * 2- Modern Redux Toolkit
+ * Redux ile küresel durumu güncelleme döngüsü:
+   * Bir bileşende bir action oluşturucuyu (action creator function) çağırarak başlıyoruz.
+   * Ardından sonuçlanan action, store a ulaşacak. Yani doğru reducerın, action ı alıp güncelleyeceği yer.
+   * Daha sonra bu kullanıcı arayüzünün yeniden tetiklenmesini sağlayacak.
+   * Buradaki asıl hedef, durum güncelleme mantığını uygulamanın geri kalanından ayrı kılmak.
+ * npx create-react-app redux-intro ile kurulum yapılır.
 
