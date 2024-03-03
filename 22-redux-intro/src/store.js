@@ -46,7 +46,7 @@ const store = createStore(reducer);
 // console.log(store.getState());
 
 //const ACCOUNT_DEPOSIT="account/deposit"; --> eski react tabanlı projelerde, değişkenlerde tutulurdu
-//! Action creatore functions
+//! Action creator functions
 function deposit(amount) {
   return { type: "account/deposit", payload: amount };
 }
