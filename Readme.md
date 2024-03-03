@@ -94,6 +94,30 @@ tek yerde birleştirir.*
    `</Routes>`<br>
 `</BrowserRouter>`<br>
 * Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. 
-
+# Performans Optimizasyonu
+ * React uygulamalarının performansını optimize etmek için odaklanacağımız 3 ana dal var:
+   * Renderların boşa harcanmasını engellemek. (Prevent wasted renders):
+    * memo, useMemo, useCallback, elementleri children ya da prop olarak geçmek 
+   * Genel uygulama hızını arttırmak. (Improve app speed / responsiveness)
+    * useMemo, useCallback, useTransition 
+   * Paket boyutunu azaltmak.(Reduce bundle size)
+    * 3.taraf kütüphaneler kullanmak , code splitting ve lazy loading (import)
+ ---
+# REDUX :
+ * Bir web uygulamasında global state i yönetmek için kullandığımız 3. taraf kütüphanedir.
+ * Uygulamamızdaki tüm global state, global olarak erişilebilen yerde ( globally accessible store) saklanır ve action ile güncellenir. Tıpkı useReducer gibi.
+ * Global store güncellenir güncellenmez bazı verileri tüketen tüm react bileşenleri store dan yeninden renderlanacak. (Context api ile useReducer ı birleştirmeye benzer).
+ * Redux ı kullanmanın 2 yolu var
+   * 1- Classic Redux
+   * 2- Modern Redux Toolkit
+ * Redux ile küresel durumu güncelleme döngüsü:
+   * Bir bileşende bir action oluşturucuyu (action creator function) çağırarak başlıyoruz.
+   * Ardından sonuçlanan action, store a ulaşacak. Yani doğru reducerın, action ı alıp güncelleyeceği yer.
+   * Daha sonra bu kullanıcı arayüzünün yeniden tetiklenmesini sağlayacak.
+   * Buradaki asıl hedef, durum güncelleme mantığını uygulamanın geri kalanından ayrı kılmak.
+ * npm i redux ile kurulum yapılır.
+ * Tıpkı reducer da oluşturduğumuz gibi initialState objesi oluşturuyoruz.
+ * Daha sonra reducer fonksiyonu oluşturup parametrelerini *state* ve *action* olarak veriyoruz. useReducerdan farkı, *state i default olarak initial state* e eşitliyoruz.
+ * Switch case yapımızı oluşturup her durumu ele alıyoruz. Default olarak error oluşturmak yerine state i döndürüyoruz.
  
 
