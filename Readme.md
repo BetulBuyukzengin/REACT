@@ -115,5 +115,9 @@ tek yerde birleştirir.*
    * Ardından sonuçlanan action, store a ulaşacak. Yani doğru reducerın, action ı alıp güncelleyeceği yer.
    * Daha sonra bu kullanıcı arayüzünün yeniden tetiklenmesini sağlayacak.
    * Buradaki asıl hedef, durum güncelleme mantığını uygulamanın geri kalanından ayrı kılmak.
- * npx create-react-app redux-intro ile kurulum yapılır.
+ * npm i redux ile kurulum yapılır.
+ * Tıpkı reducer da oluşturduğumuz gibi initialState objesi oluşturuyoruz.
+ * Daha sonra reducer fonksiyonu oluşturup parametrelerini *state* ve *action* olarak veriyoruz. useReducerdan farkı, *state i default olarak initial state* e eşitliyoruz.
+ * Switch case yapımızı oluşturup her durumu ele alıyoruz. Default olarak error oluşturmak yerine state i döndürüyoruz.
+ 
 
