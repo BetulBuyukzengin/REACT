@@ -26,6 +26,8 @@ const accountSlice = createSlice({
     //   state.balance = state.balance + action.payload.amount;
     // },
     requestLoan: {
+      // prepare fonksiyonu, createSlice içindeki reducers nesnesinde belirtilen reducer'lar için
+      // bir önceki ve sonraki state'leri alarak daha karmaşık state dönüşümleri yapmaya olanak tanır.
       prepare(amount, purpose) {
         return {
           payload: { amount, purpose },
