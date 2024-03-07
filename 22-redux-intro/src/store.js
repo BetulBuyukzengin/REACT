@@ -1,4 +1,6 @@
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { thunk } from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 import accountReducer from "./features/accounts/accountSlice";
 import customerReducer from "./features/customers/customerSlice";
 
@@ -8,7 +10,9 @@ const routeReducer = combineReducers({
   customer: customerReducer,
 });
 
-//! Store oluşturma
-// const store = createStore(accountReducer);
-const store = createStore(routeReducer);
+//! Store oluşturma ve thunk middleware ini kullanma
+const store = createStore(
+  routeReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 export default store;
