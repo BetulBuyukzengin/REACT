@@ -136,4 +136,25 @@ tek yerde birleştirir.*
 * Asenkron bir işlemi component içerisinde yaparak dispatch için kullanabiliriz ama bu da ideal değildir.
 * Peki ya store veya componentlerde yapamayacaksak nerede yapacağız? Tam burada devreye *Middleware* giriyor.
 * Middleware, action ın gönderilmesi ile  store arasında yer alan bir fonksiyondur
-* Gönderdikten (dispatching) sonra güncellenen state, direkt store a gitmek yerine bir ara birime uğrar. Burası *"Redux Thunks"* olarak isimlendirilir ve 3rd party bir pakettir. Asenkron tüm işlemler için Thunks kullanacağız.
+* Gönderdikten (dispatching) sonra güncellenen state, direkt store a gitmek yerine bir ara birime uğrar. Burası *"Redux Thunks"* olarak isimlendirilir ve 3rd party bir pakettir.
+* Asenkron tüm işlemler için Thunks kullanalım:
+  * 1- `npm i redux-thunk` ile Redux Thunks ı kuralım.
+  * 2- Store içerisinde oluşturma. `const store = createStore(rootReducer, applyMiddleware(thunk));`
+  * 3- Action Creator içerisinde kullanma
+  # REDUX GELİŞTİRİCİ ARAÇLARI:
+    * Chrome eklentisi olarak *redux-devtools* u kuralım.
+    * Daha sonra `npm i redux-devtools-extension` ı terminalde yazarak kuralım.
+    * Bu paketten {composeWithDevTools} fonksiyonunu store adlı dosyada import edelim.
+    * Ve bunu applyMiddleware e saralım. `const store = createStore(
+     routeReducer,
+     composeWithDevTools(applyMiddleware(thunk))
+     );`
+  # REDUX TOOLKIT:
+    * Redux kodu yazmanın daha modern ve tercih edilen yoludur.
+    * Daha az kod yazmamızı sağlar.
+    * !!! Reducer içerisinde state'i değiştiren kod yazabiliriz. (Arka planda Immer isimli bir kütüphane tarafından immutable olarak çevirilir).
+    * !!! Action Creatorlar otomatik olarak oluşturulur.
+    * !!! Otomatik olarak thunk middleware ve devtools setup'u yapılır.
+    * `npm i @reduxjs/toolkit` ile kurulum yapalım ve store dosyasında *configureStore* u import edelim.(createStore yerine kullanacağız).
+    * configureStore, reducerları otomatik olarak birleştirecek, thunk middleware i otomatik olarak ekleyecek, hatta geliştirici ayarlarını otomatik olarak ayarlayacaktır.
+    * 
