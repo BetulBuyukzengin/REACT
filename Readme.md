@@ -106,7 +106,7 @@ tek yerde birleştirir.*
 # REDUX :
  * Bir web uygulamasında global state i yönetmek için kullandığımız 3. taraf kütüphanedir.
  * Uygulamamızdaki tüm global state, global olarak erişilebilen yerde ( globally accessible store) saklanır ve action ile güncellenir. Tıpkı useReducer gibi.
- * Global store güncellenir güncellenmez bazı verileri tüketen tüm react bileşenleri store dan yeninden renderlanacak. (Context api ile useReducer ı birleştirmeye benzer).
+ * Global store güncellenir güncellenmez bazı verileri tüketen tüm react bileşenleri store dan yeniden renderlanacak. (Context api ile useReducer ı birleştirmeye benzer).
  * Redux ı kullanmanın 2 yolu var
    * 1- Classic Redux
    * 2- Modern Redux Toolkit
@@ -115,7 +115,7 @@ tek yerde birleştirir.*
    * Ardından sonuçlanan action, store a ulaşacak. Yani doğru reducerın, action ı alıp güncelleyeceği yer.
    * Daha sonra bu kullanıcı arayüzünün yeniden tetiklenmesini sağlayacak.
    * Buradaki asıl hedef, durum güncelleme mantığını uygulamanın geri kalanından ayrı kılmak.
- * npm i redux ile kurulum yapılır.
+ * *npm i redux* ile kurulum yapılır.
  * Tıpkı reducer da oluşturduğumuz gibi initialState objesi oluşturuyoruz.
  * Daha sonra reducer fonksiyonu oluşturup parametrelerini *state* ve *action* olarak veriyoruz. useReducerdan farkı, *state i default olarak initial state* e eşitliyoruz.
  * Switch case yapımızı oluşturup her durumu ele alıyoruz. Default olarak error oluşturmak yerine state i döndürüyoruz.
@@ -123,5 +123,17 @@ tek yerde birleştirir.*
  * Daha sonrasında, store objesinden dispatch fonksiyonumuzu okuyoruz ve useReducerda olduğu gibi güncelliyoruz (her state için manuel olarak).
  * Aslında manuel olarak yapmaktansa, otomatik olarak bu işlevi gerçekleştirmek için *Action Creators* yapısını kullanabiliriz (Yaptığı tek şey eylemleri geri döndürmek).
  * Oluşturulan birden fazla Reducer fonksiyonunu bir araya getirmek ve kullanmak için bir Root reducer oluşturup, bu değişken üzerinde *combineReducers* fonksiyonunu çağırabiliriz.
- 
-
+   * `const routeReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
+`
+* Redux store u react uygulamasıyla bağlamak için öncelikle *npm i react-redux* ı kurmamız gerekiyor.
+* React reduxtan *Provider* componentini import edip uygulamamızın tümünü providera saralım, bu işlem context api daki gibi yapılır. Daha sonra oluşturduğumuz *store* yapısını providera prop olarak verelim.
+* Redux store dan veri okumak için useSelector() kullanılır. `const customer=useSelector((store)=>store.customer)`.
+* React componentlerinin içersinden redux mağazasına action göndermek için useDispatch() kullanılır.
+* Bazı api lara asenkron çağrı yaparken reducer ların içerisinde kesinlikle yapamayız. Çünkü reducer ların saf (pure) fonksiyonlar olması gerekir.
+* Asenkron bir işlemi component içerisinde yaparak dispatch için kullanabiliriz ama bu da ideal değildir.
+* Peki ya store veya componentlerde yapamayacaksak nerede yapacağız? Tam burada devreye *Middleware* giriyor.
+* Middleware, action ın gönderilmesi ile  store arasında yer alan bir fonksiyondur
+* Gönderdikten (dispatching) sonra güncellenen state, direkt store a gitmek yerine bir ara birime uğrar. Burası *"Redux Thunks"* olarak isimlendirilir ve 3rd party bir pakettir. Asenkron tüm işlemler için Thunks kullanacağız.
