@@ -139,7 +139,8 @@ tek yerde birleştirir.*
 * Gönderdikten (dispatching) sonra güncellenen state, direkt store a gitmek yerine bir ara birime uğrar. Burası *"Redux Thunks"* olarak isimlendirilir ve 3rd party bir pakettir.
 * Asenkron tüm işlemler için Thunks kullanalım:
   * 1- `npm i redux-thunk` ile Redux Thunks ı kuralım.
-  * 2- Store içerisinde oluşturma. `const store = createStore(rootReducer, applyMiddleware(thunk));`
+  * 2- Store içerisinde oluşturma.
+  *  `const store = createStore(rootReducer, applyMiddleware(thunk));`
   * 3- Action Creator içerisinde kullanma
   # REDUX GELİŞTİRİCİ ARAÇLARI:
     * Chrome eklentisi olarak *redux-devtools* u kuralım.
