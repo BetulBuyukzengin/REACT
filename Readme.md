@@ -136,4 +136,4 @@ tek yerde birleştirir.*
 * Asenkron bir işlemi component içerisinde yaparak dispatch için kullanabiliriz ama bu da ideal değildir.
 * Peki ya store veya componentlerde yapamayacaksak nerede yapacağız? Tam burada devreye *Middleware* giriyor.
 * Middleware, action ın gönderilmesi ile  store arasında yer alan bir fonksiyondur
-* Gönderdikten (dispatching) sonra güncellenen state, direkt store'a gitmek yerine bir ara birime uğrar. Burası "Redux Thunks" olarak isimlendirilir ve 3rd party bir pakettir. Asenkron tüm işlemler için Thunks kullanacağız.
+* Gönderdikten (dispatching) sonra güncellenen state, direkt store a gitmek yerine bir ara birime uğrar. Burası *"Redux Thunks"* olarak isimlendirilir ve 3rd party bir pakettir. Asenkron tüm işlemler için Thunks kullanacağız.
