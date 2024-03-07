@@ -119,5 +119,9 @@ tek yerde birleştirir.*
  * Tıpkı reducer da oluşturduğumuz gibi initialState objesi oluşturuyoruz.
  * Daha sonra reducer fonksiyonu oluşturup parametrelerini *state* ve *action* olarak veriyoruz. useReducerdan farkı, *state i default olarak initial state* e eşitliyoruz.
  * Switch case yapımızı oluşturup her durumu ele alıyoruz. Default olarak error oluşturmak yerine state i döndürüyoruz.
+ * createStore u reduxtan import ediyoruz ve çağırıyoruz, parametre olarak da  reducer fonksiyonunu ekliyoruz. `const state=createStore(reducer)`
+ * Daha sonrasında, store objesinden dispatch fonksiyonumuzu okuyoruz ve useReducerda olduğu gibi güncelliyoruz (her state için manuel olarak).
+ * Aslında manuel olarak yapmaktansa, otomatik olarak bu işlevi gerçekleştirmek için *Action Creators* yapısını kullanabiliriz (Yaptığı tek şey eylemleri geri döndürmek).
+ * Oluşturulan birden fazla Reducer fonksiyonunu bir araya getirmek ve kullanmak için bir Root reducer oluşturup, bu değişken üzerinde *combineReducers* fonksiyonunu çağırabiliriz.
  
 
