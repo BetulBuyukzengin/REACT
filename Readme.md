@@ -10,12 +10,14 @@ Projelerinizin ihtiyaçlarına ve öğrenme hedefinize bağlı olarak tercih yap
 ## <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="20" height="20" /><a href="https://create-react-app.dev/">`Create-react-app`</a>
 
 "Create React App" olgun ve geniş bir topluluğa ve daha geleneksel bir yapıya sahiptir.<br>
-* **"create-react-app@latest project_name"** komutu ile projemizi oluşturabiliriz.
+* `create-react-app@latest project_name` komutu ile projemizi oluşturabiliriz.
 * Projeyi başlatır: npm start 
 
 ## <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vitejs-logo.svg/410px-Vitejs-logo.svg.png" width="20" height="20"><a href="https://vitejs.dev/">`Vite`</a>
 "Vite" hızlı geliştirme ve performans avantajları sunar, yeni bir projedir.
+* `npm creat vite@latest` ile proje oluşturabiliriz.
 * Projeyi başlatır: npm run dev
+  
 
 | create-react-app | vite |
 |----------|----------|
