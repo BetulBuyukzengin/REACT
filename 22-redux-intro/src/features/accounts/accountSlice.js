@@ -41,7 +41,7 @@ const accountSlice = createSlice({
         state.balance = state.balance + action.payload.amount;
       },
     },
-    payLoan(state, action) {
+    payLoan(state) {
       //! Kod satırı sırasına dikkat et 0 a eşitleme önce olursa istenildiği gibi hesaplanmaz
       state.balance -= state.loan;
       state.loan = 0;
