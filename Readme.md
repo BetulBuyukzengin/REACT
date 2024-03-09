@@ -89,7 +89,7 @@ tek yerde birleştirir.*
   ### Routes:
   * Bir web uygulamasında belirli URL yolları ile ilişkilendirilen sayfaların veya bileşenlerin tanımlandığı bir kavramdır. Bu, genellikle bir web uygulamasının gezinme yapısını yönetmek ve belirli URL'lere 
   karşılık gelen içeriği göstermek için kullanılır.<br>
-  Basitçe Router yapısı: <br>
+  Basitçe Router yapısı (eski versiyon) : <br>
 `<BrowserRouter>`<br>
    `<Routes>` <br>
       `<Route path="product" element={<Product />} />`<br>
