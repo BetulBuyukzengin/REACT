@@ -1,3 +1,3 @@
 # World Wise
 
-React router eski versiyon kod sistemi ile oluşturdum.
+React router eski versiyon kod yapısı ile oluşturdum.
