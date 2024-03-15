@@ -160,4 +160,22 @@ tek yerde birleştirir.*
     * !!! Otomatik olarak thunk middleware ve devtools setup'u yapılır.
     * `npm i @reduxjs/toolkit` ile kurulum yapalım ve store dosyasında *configureStore* u import edelim.(createStore yerine kullanacağız).
     * configureStore, reducerları otomatik olarak birleştirecek, thunk middleware i otomatik olarak ekleyecek, hatta geliştirici ayarlarını otomatik olarak ayarlayacaktır.
-    * 
+
+  ---
+  # İSTEMCİ (Client) TARAFINDA İŞLEME (CSR) Mİ, (Server) SUNUCU TARAFINDA İŞLEME (SSR) Mİ?
+
+| CSR WITH PLAIN REACT | SSR WITH FRAMEWORK |
+|-----------------------|--------------------|
+| Tek Sayfalı Uygulamalar (SPA'lar) oluşturmak için kullanılır | Çok Sayfalı Uygulamalar (MPA'lar) oluşturmak için kullanılır |
+| Tüm HTML istemcide oluşturulur | Bazı HTML'ler sunucuda işleniyor |
+| Uygulamalar çalışmaya başlamadan tüm js in indirilmesi gerekiyor: performans açısından kötü (kalitesiz cihaz, kötü internet bağlantısı var ise) | Daha az JavaScript indirilmesi gerektiğinden daha performanslı |
+| Mükemmel bir kullanım örneği: kullanılan uygulamalar Şirket içi araçlar olarak “dahili olarak” tamamen bir girişin arkasına gizlenmiş | React ekibi bu yönde giderek daha fazla ilerliyor |
+
+# STYLED COMPONENTS
+* React uygulamalarında kullanılan popüler bir CSS-in-JS kütüphanesidir.
+* React bileşenlerini oluştururken herhangi bir harici CSS dosyası oluşturmanıza veya sınıflarla uğraşmanıza gerek kalmadan, js dosyaları içerisinde css style tanımlamalarını yapmamızı sağlar.
+* Dinamik stiller oluşturmayı ve bileşenler arasında stil iletimini kolaylaştırmayı sağlar. Bu sayede bileşenlerinizin stilini daha modüler ve okunabilir bir şekilde yönetebilirsiniz.
+* `npm i styled-components` ile kurulum yapılır.
+* `import styled from "styled-components` ile dosyamıza  import ettikten sonra kullanıma geçebiliriz.
+---resim ekle
+* `createGlobalStyle` fonksiyonu, bileşen stillerini merkezi bir yerden oluşturmak ve tekrarı azaltmak için kullanılır. Bu, kodun daha düzenli ve bakımı daha kolay olmasını sağlar.
