@@ -177,5 +177,11 @@ tek yerde birleştirir.*
 * Dinamik stiller oluşturmayı ve bileşenler arasında stil iletimini kolaylaştırmayı sağlar. Bu sayede bileşenlerinizin stilini daha modüler ve okunabilir bir şekilde yönetebilirsiniz.
 * `npm i styled-components` ile kurulum yapılır.
 * `import styled from "styled-components` ile dosyamıza  import ettikten sonra kullanıma geçebiliriz.
----resim ekle
+  
+ <img src="img/styledComponents.png" alt="styled components ">
+ 
 * `createGlobalStyle` fonksiyonu, bileşen stillerini merkezi bir yerden oluşturmak ve tekrarı azaltmak için kullanılır. Bu, kodun daha düzenli ve bakımı daha kolay olmasını sağlar.
+## Styled Components de Esnek Bileşenler ve Varsayılan Özellikler Kullanımı:
+ <img src="img/default1.png" alt="default1">
+ <img src="img/default2.png" alt="defaul2">
+
