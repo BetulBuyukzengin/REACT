@@ -96,6 +96,9 @@ tek yerde birleştirir.*
    `</Routes>`<br>
 `</BrowserRouter>`<br>
 * Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır.
+* Bu kod proje başladığında veya pathi kontrol paneline eşit olduğunda Kontrol Paneli bileşenine gitmeyi sağlar. Yinelemeleri önlemek için *Navigate* kullanabiliriz.
+* `  <Route index element={<Navigate replace to="dashboard" />} />
+        <Route path="dashboard" element={<Dashboard />} />`
 * ---
 ### *ROUTER OLUŞTURMANIN YENİ VERSİYONU:*
 * App componentimizde createBrowserRouter fonksiyonunu react router dom dan import ettikten sonra route ları oluşturuyoruz.
