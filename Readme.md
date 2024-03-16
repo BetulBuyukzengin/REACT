@@ -95,7 +95,15 @@ tek yerde birleştirir.*
       `<Route path="product" element={<Product />} />`<br>
    `</Routes>`<br>
 `</BrowserRouter>`<br>
-* Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. 
+---
+* Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır.
+* *ROUTER OLUŞTURMANIN YENİ VERSİYONU:*
+* App componentimizde createBrowserRouter fonksiyonunu react router dom dan import ettikten sonra route ları oluşturuyoruz.
+  * Fonksiyonun içinde objeler dizimizde yönlendirmeyi yaparken *path* ile *element* özelliklerini kullanıyoruz.
+   * Path yolu belirtirken, element de componentimize işaret ediyor.
+   * İç içe route oluşturmak için children kullanıyoruz. Ve bu child route ları göstermek için `<Outlet/>` componentini import ederek kullanıyoruz.
+* RouterProvider a, oluşturduğumuz _createBrowserRouter_ fonksiyonunu prop olarak veriyoruz.
+
 # Performans Optimizasyonu
  * React uygulamalarının performansını optimize etmek için odaklanacağımız 3 ana dal var:
    * Renderların boşa harcanmasını engellemek. (Prevent wasted renders):
