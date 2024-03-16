@@ -95,9 +95,9 @@ tek yerde birleştirir.*
       `<Route path="product" element={<Product />} />`<br>
    `</Routes>`<br>
 `</BrowserRouter>`<br>
----
 * Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır.
-* *ROUTER OLUŞTURMANIN YENİ VERSİYONU:*
+* ---
+### *ROUTER OLUŞTURMANIN YENİ VERSİYONU:*
 * App componentimizde createBrowserRouter fonksiyonunu react router dom dan import ettikten sonra route ları oluşturuyoruz.
   * Fonksiyonun içinde objeler dizimizde yönlendirmeyi yaparken *path* ile *element* özelliklerini kullanıyoruz.
    * Path yolu belirtirken, element de componentimize işaret ediyor.
