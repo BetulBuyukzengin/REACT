@@ -196,3 +196,11 @@ tek yerde birleştirir.*
  <img src="img/default1.png" alt="default1">
  <img src="img/default2.png" alt="defaul2">
 
+# SUPABASE
+* Geliştiricilerin postgres veritabanıyla kolayca arka uç (backend) oluşturmasına olanak tanıyan hizmet.
+* Otomatik olarak bir veritabanı ve API oluşturur, böylece sunucudan kolayca veri isteyip alabiliriz.
+* Sadece bir API değildir, supabase ayrıca kullanımı kolay kullanıcı kimlik doğrulama ve dosya depolama özellikleriyle birlikte gelir.
+* Supabase, SQL tarafından desteklenen, ilişkisel bir veritabanı olan postgres veritabanını kullanmaktadır. Bu tabloları birleştirmek için foreign key kullanılır.
+
+# REACT QUERY
+* 
