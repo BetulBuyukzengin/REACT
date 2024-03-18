@@ -203,4 +203,14 @@ tek yerde birleştirir.*
 * Supabase, SQL tarafından desteklenen, ilişkisel bir veritabanı olan postgres veritabanını kullanmaktadır. Bu tabloları birleştirmek için foreign key kullanılır.
 
 # REACT QUERY
-* 
+* Uzak durumu yönetmek için kullanılan güçlü bir kütüphanedir.
+* Çok daha az kod yazmamıza olanak tanırken aynı zamanda kullanıcı deneyimini çok daha iyi hale getiren birçok özelliği mevcut:
+   * Otomatik yükleme ve hata durumları
+   * Durumu senkronize tutmak için otomatik yeniden getirme 
+   * Getirilen tüm uzak durumlar önbellekte saklanır.
+   * Pre-fetching
+   * Kolay uzaktan durum değişimi (güncelleme)
+   * Çevrimdışı destek
+   * Uzak state (remote), normal stateten(regular) farklıdır.
+   * Asenkron işlemleri, arayüzümüz ile senkron tutmak için react query kullanıyoruz.
+* npm i @tanstack/react-query ile kurulum yapılır.
