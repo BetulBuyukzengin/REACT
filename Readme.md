@@ -231,3 +231,33 @@ tek yerde birleştirir.*
 * React query nin geliştirme aracını kurmak için `npm i @tanstack/react-query-devtools` komut satırından faydalanabiliriz. QueryClientProvider ın içerisinde:<br>
 `  <ReactQueryDevtools initialIsOpen={false} />`
 * `useQuery hook` u, React Query'nin bir parçasıdır ve sunucudan veri getirmek  ve bu verileri yönetmek için kullanılır.
+* `useMutation hook ` u : Mutasyon, genellikle bir API isteğini tetiklemek ve ardından başarılı veya başarısız olması durumunda belirli işlemleri gerçekleştirmek için kullanılır.<br>
+   `  const { mutate, isLoading: isCreating } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => {
+      toast.success("New cabin successfully created");
+      queryClient.invalidateQueries({ queryKey: ["cabins"] });
+      reset();
+    },
+    onError: (err) => toast.error(err.message),
+  });`
+  * mutate: Mutasyon işlevini tetiklemek için kullanılır. Bu işlev, mutationFn parametresinde belirtilen mutasyon işlevini çağırır.
+  * isLoading: Mutasyon işlemi sırasında yüklenme durumunu takip etmek için kullanılır. Bu değişken, mutasyon işlemi devam ederken true, tamamlandığında ise false değerini alır.
+  * mutationFn: Mutasyon işlevini tanımlar. Bu işlev, yeni bir kabin oluşturmak için kullanılacak createCabin fonksiyonunu temsil eder. ( `mutationFn: createCabin`)
+  * onSuccess: Mutasyon işlemi başarılı olduğunda gerçekleştirilecek işlemleri tanımlar. Bu durumda, yeni bir kabin başarıyla oluşturulduğunda bir başarı bildirimi görüntülenir, ilgili sorgunun önbelleğini 
+   geçersiz kılınır (queryClient.invalidateQueries) ve form sıfırlanır (reset).
+  * onError: Mutasyon işlemi başarısız olduğunda gerçekleştirilecek işlemleri tanımlar. Bu durumda, bir hata bildirimi görüntülenir ve hatanın mesajı kullanıcıya iletilir.
+
+# REACT HOOK FORM
+* Bu kütüphane, form işlemlerini kolaylaştırmak için React uygulamalarında kullanılan bir form yönetim çözümüdür.
+* `npm i react-hook-form` ile kurulum yapılır.
+* `const { register, handleSubmit } = useForm();` : Buradaki register ve handleSubmit değişkenleri, "react-hook-form" kütüphanesinin sağladığı iki önemli fonksiyonu temsil eder.
+  * *register*: Bu fonksiyon, formdaki her bir input alanını yönetmek için kullanılır. Input alanlarını bu fonksiyonla kaydederek, değerlerin doğrulanması, takip edilmesi ve gönderilmesi gibi işlemler gerçekleştirilebilir.
+  * *handleSubmit*: Bu fonksiyon, formun gönderilme işlemi için kullanılır. Formun gönderilme olayını yönetir ve gönderme işlemi için belirtilen bir geri çağrı işlevini çalıştırır. Bu işlev, formdaki alanlardan toplanan verileri işlemek ve gerekli işlemleri gerçekleştirmek için kullanılabilir.
+  * `<Textarea
+          type="number"
+          id="description"
+          defaultValue=""
+          {...register("description")}
+        />` registerı inputları yönetmek için dağıttım.
+  
