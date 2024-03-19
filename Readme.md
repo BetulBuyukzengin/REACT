@@ -208,9 +208,26 @@ tek yerde birleştirir.*
    * Otomatik yükleme ve hata durumları
    * Durumu senkronize tutmak için otomatik yeniden getirme 
    * Getirilen tüm uzak durumlar önbellekte saklanır.
-   * Pre-fetching
-   * Kolay uzaktan durum değişimi (güncelleme)
-   * Çevrimdışı destek
-   * Uzak state (remote), normal stateten(regular) farklıdır.
-   * Asenkron işlemleri, arayüzümüz ile senkron tutmak için react query kullanıyoruz.
-* npm i @tanstack/react-query ile kurulum yapılır.
+   * Pre-fetching.
+   * Kolay bir şekilde uzaktan durum değişimi (güncelleme).
+   * Çevrimdışı destek.
+   * Uzak state (remote), normal stateten (regular) farklıdır.
+   * Asenkron işlemleri, ara yüzümüz ile senkron tutmak için react query kullanıyoruz.
+* `npm i @tanstack/react-query` ile kurulum yapılır.
+* Kullanımı:
+   * İlk önce verilerin barındığı bir yer oluşturalım.<br>
+     `const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      //Güncellenme süresi
+      staleTime: 60 * 1000,
+    },
+  },
+});`
+   * İkinci olarak uygulamaya sağlayalım (provide). <br>
+   ` <QueryClientProvider client={queryClient}>
+      ... 
+    </QueryClientProvider>`
+* React query nin geliştirme aracını kurmak için `npm i @tanstack/react-query-devtools` komut satırından faydalanabiliriz. QueryClientProvider ın içerisinde:<br>
+`  <ReactQueryDevtools initialIsOpen={false} />`
+* `useQuery hook` u, React Query'nin bir parçasıdır ve sunucudan veri getirmek  ve bu verileri yönetmek için kullanılır.
