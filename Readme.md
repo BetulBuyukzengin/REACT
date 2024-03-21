@@ -236,6 +236,7 @@ tek yerde birleştirir.*
     mutationFn: createCabin,
     onSuccess: () => {
       toast.success("New cabin successfully created");
+      //ui re render
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
       reset();
     },
@@ -248,16 +249,30 @@ tek yerde birleştirir.*
    geçersiz kılınır (queryClient.invalidateQueries) ve form sıfırlanır (reset).
   * onError: Mutasyon işlemi başarısız olduğunda gerçekleştirilecek işlemleri tanımlar. Bu durumda, bir hata bildirimi görüntülenir ve hatanın mesajı kullanıcıya iletilir.
 
-# REACT HOOK FORM
+#  <a href="https://react-hook-form.com/">REACT HOOK FORM</a>
 * Bu kütüphane, form işlemlerini kolaylaştırmak için React uygulamalarında kullanılan bir form yönetim çözümüdür.
 * `npm i react-hook-form` ile kurulum yapılır.
 * `const { register, handleSubmit } = useForm();` : Buradaki register ve handleSubmit değişkenleri, "react-hook-form" kütüphanesinin sağladığı iki önemli fonksiyonu temsil eder.
   * *register*: Bu fonksiyon, formdaki her bir input alanını yönetmek için kullanılır. Input alanlarını bu fonksiyonla kaydederek, değerlerin doğrulanması, takip edilmesi ve gönderilmesi gibi işlemler gerçekleştirilebilir.
   * *handleSubmit*: Bu fonksiyon, formun gönderilme işlemi için kullanılır. Formun gönderilme olayını yönetir ve gönderme işlemi için belirtilen bir geri çağrı işlevini çalıştırır. Bu işlev, formdaki alanlardan toplanan verileri işlemek ve gerekli işlemleri gerçekleştirmek için kullanılabilir.
+  * Bu iki fonksiyonun yanı sıra farklı fonksiyonları da içerir.<a href="https://react-hook-form.com/docs/useform"> Daha fazla detay için ... </a>
   * `<Textarea
           type="number"
           id="description"
           defaultValue=""
           {...register("description")}
-        />` registerı inputları yönetmek için dağıttım.
-  
+        />` registerı inputları yönetmek için bu şekilde dağıtırız.
+  * *getValues()*: Form değerlerini okumak için optimize edilmiş bir yardımcıdır.
+  * Örnek bir kod satırı:<br>
+  `<Input
+          type="number"
+          id="discount"
+          defaultValue={0}
+          {...register("discount", {
+            required: "This field is required",
+            validate: (value) =>
+              value <= getValues().regularPrice ||
+              "Discount should be less than regular price",
+          })}
+        />`
+
