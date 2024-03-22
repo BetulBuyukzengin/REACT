@@ -275,4 +275,13 @@ tek yerde birleştirir.*
               "Discount should be less than regular price",
           })}
         />`
+# React ta yeniden kod kullanılabilirliği için yöntemler:
+  ## Kullanıcı Arayüzü (UI)    
+    * Componentler ve proplar
+    * Children prop  
+  ## Durum Bilgili Mantık (Stateful Logic)    
+    * Özel kancalar (Custom Hooks) 
+  ## Her iki kategori için ise :
+    * Render props pattern : Bileşene neyi oluşturacağını söyleyen bir işlevi ileterek bileşenin ne oluşturacağı üzerinde tam kontrol elde edebilirsiniz. Kancalardan önce daha yaygın ve kullanışlıydı
+    * Compound component pattern : Kendi durumlarını yönetmek isteyen oldukça bağımsız bileşenler içindir. Bileşik bileşenler süslü süper bileşenler gibidir
 
