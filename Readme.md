@@ -15,7 +15,7 @@ Projelerinizin ihtiyaçlarına ve öğrenme hedefinize bağlı olarak tercih yap
 
 ## <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vitejs-logo.svg/410px-Vitejs-logo.svg.png" width="20" height="20"><a href="https://vitejs.dev/">`Vite`</a>
 "Vite" hızlı geliştirme ve performans avantajları sunar, yeni bir projedir.
-* `npm creat vite@latest` ile proje oluşturabiliriz.
+* `npm create vite@latest` ile proje oluşturabiliriz.
 * Projeyi başlatır: npm run dev
   
 
