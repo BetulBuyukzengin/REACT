@@ -282,6 +282,11 @@ tek yerde birleştirir.*
   ## Durum Bilgili Mantık (Stateful Logic)    
     * Özel kancalar (Custom Hooks) 
   ## Her iki kategori için ise :
-    * Render props pattern : Render Props deseni, bir bileşenin içindeki işlevselliği dışa aktarmanın ve bu işlevselliğin diğer bileşenler tarafından kullanılmasını sağlamanın bir yoludur. Bu, React uygulamalarında bileşenler arasında esneklik ve yeniden kullanılabilirlik sağlar. Kancalardan önce daha yaygın ve kullanışlıydı.
-    * Compound component pattern : Kendi durumlarını yönetmek isteyen birbirleriyle ilişkili bileşenlerin bir araya gelerek daha büyük ve karmaşık bileşenlerin oluşturulmasını sağlayan bir tasarım desenidir. Bileşik bileşenler süslü süper bileşenler gibidir. Bu desen, modüler ve yeniden kullanılabilir kullanıcı arayüzü bileşenlerinin geliştirilmesinde yardımcı olabilir.
+    * Render props pattern : Render Props deseni, bir bileşenin içindeki işlevselliği dışa aktarmanın ve bu işlevselliğin diğer
+    bileşenler tarafından kullanılmasını sağlamanın bir yoludur. Bu, React uygulamalarında bileşenler arasında esneklik ve
+    yeniden kullanılabilirlik sağlar. Kancalardan önce daha yaygın ve kullanışlıydı.
+    * Compound component pattern : Kendi durumlarını yönetmek isteyen birbirleriyle ilişkili bileşenlerin bir araya gelerek 
+    daha büyük ve karmaşık bileşenlerin oluşturulmasını sağlayan bir tasarım desenidir. Bileşik bileşenler süslü süper 
+    bileşenler gibidir. Bu desen, modüler ve yeniden kullanılabilir kullanıcı arayüzü bileşenlerinin geliştirilmesinde yardımcı
+    olabilir.
 
