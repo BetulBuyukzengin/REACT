@@ -1,11 +1,11 @@
 # <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="30" height="30" /> `REACT`
 
-Merhaba! Bu depo, React öğrenme serüvenimde oluşturduğum projeleri ve edindiğim bilgileri içeriyor. Şu anki çalışmalarım ve birikimlerim burada bulunuyor, ancak bu serüveni daha da zenginleştirmek ve geliştirmek istiyorum. Projelerimi Visual Studio Code (VS Code) geliştirme ortamında hazırlıyorum. İlerleyen günlerde, yeni projeler ekleyecek, öğrendikçe notlar alacak ve bu serüveni daha da güçlendireceğim.
+Merhaba! Bu depo, React öğrenme serüvenimde oluşturduğum projeleri ve edindiğim bilgileri içeriyor. Şu anki çalışmalarım ve birikimlerim burada bulunuyor ancak bu serüveni daha da zenginleştirmek ve geliştirmek istiyorum. Projelerimi Visual Studio Code (VS Code) geliştirme ortamında hazırlıyorum. İlerleyen günlerde, yeni projeler ekleyecek, öğrendikçe notlar alacak ve bu serüveni daha da güçlendireceğim.
 
 # React ın kurulumu ile başlayalım:
 Öncelikle React projesi oluşturmak veya geliştirmek için Node.js'in yüklü olması gerekmektedir. 
 "Vite" ve "Create React App" (CRA) arasında tercih yaparken, projenizin ihtiyaçlarına bağlı olarak karar vermelisiniz.
-Projelerinizin ihtiyaçlarına ve öğrenme hedefinize bağlı olarak tercih yapabilirsiniz. Ben öğrenmek amaçlı olarak "Creat React App" ı tercih ederken, gerçek hayat projelerinde "Vite" ı kullanacağım.
+Projelerinizin ihtiyaçlarına ve öğrenme hedefinize bağlı olarak tercih yapabilirsiniz. Ben öğrenmek amaçlı "Creat React App" ı tercih ederken, gerçek hayat projelerinde "Vite" ı kullanacağım.
 
 ## <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="20" height="20" /><a href="https://create-react-app.dev/">`Create-react-app`</a>
 
@@ -14,31 +14,36 @@ Projelerinizin ihtiyaçlarına ve öğrenme hedefinize bağlı olarak tercih yap
 * Projeyi başlatır: npm start 
 
 ## <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vitejs-logo.svg/410px-Vitejs-logo.svg.png" width="20" height="20"><a href="https://vitejs.dev/">`Vite`</a>
-"Vite" hızlı geliştirme ve performans avantajları sunar, yeni bir projedir.
+"Vite" hızlı geliştirme ve performans avantajları sunar, create react app e göre daha yenidir.
 * `npm create vite@latest` ile proje oluşturabiliriz.
 * Projeyi başlatır: npm run dev
   
-
+## Create react app ve vite ile oluşturduğumuz proje dosyaları:
 | create-react-app | vite |
 |----------|----------|
 | index.js | main.jsx |
 | App.js   | App.jsx  |
 
+*React developer tools: Bir geliştirme aracıdır. Chrome a eklenti olarak ekleyerek component tree, states ve birçok durumu kontrol edebilmenizi sağlar.*
+
 ## JSX Nedir ve Nasıl Kullanılır:
 * Ekranda göstermek istenilenler için kullanırız. HTML benzeri bir yapıdır. Javascript ve XML in birleşimidir. 
 * Jsx i kullanışlı olduğu için ve bileşen oluşturmayı kolaylaştırdığı için kullanıyoruz. Tarayıcı jsx i anlayamadığı için Babel aracılığıyla js e dönüştürülür. Webpack, tüm farklı dosyaları alır ve 
-tek yerde birleştirir.*
+tek yerde birleştirir.
 * Tüm prop isimleri camelCase olmalıdır.
 * Number lar {} içerisinde verilmeli.
 * Boolean proplarda doğru olduğunu ekstra belirtmeye gerek yok. False da ise {} içerisinde belirtmeliyiz.
 * Class yerine className kullanılır .
 * Satır içi style obje olarak kullanılır.
 
-*React developer tools: Bir geliştirme aracıdır. Chrome a eklenti olarak ekleyerek component tree, states ve birçok durumu kontrol edebilmenizi sağlar.*
 
 ## RENDERLAMA:
-
-
+* Componentler, kullanıcı arayüzünün farklı parçalarını temsil eder.
+* Kondisyonel renderlama, bir DOM elementini veya bir componenti koşula bağlı olarak gösterir ya da gizleyebilir.
+* Birden fazla component renderlamak istediğimizde döngülerden faydalanabiliriz. Map() methodu en sık kullanılanlardandır. Şayet map() methodu ile renderlama yaparsak o bileşene `key` özelliği vermeliyiz.
+* Key özelliği sayesinde yeri ve içeriği değişmeyen elemanların yeniden renderlanmasını engeller ve performansı arttırırız.
+* React fragment, Dom'a ekstra düğüm eklemeden bir alt elemanlar listesini gruplandırmamıza olanak tanır, kullanımı <></> ya da <React.Fragment></React.Fragment> şeklindedir.
+* Component composition, parent elementten child elemente birden fazla yerden prop geçirerek erişim karmaşasını ortadan kaldırmak adına çok kullanışlı bir yöntemdir. Aynı zamanda parent element yeniden kullanılabilir bir yapıya sahip olur. Child componentleri, parent componentin açılış ve kapanış tagleri içine taşırız ve children propu vererek işlemi tamamlarız. Prop drilling durumundan da böylece kaçınmış oluruz.
 
 ## CSS Kütüphaneleri
 * Bulma.io
