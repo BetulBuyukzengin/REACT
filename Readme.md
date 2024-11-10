@@ -31,7 +31,7 @@ Projelerinizin ihtiyaçlarına ve öğrenme hedefinize bağlı olarak tercih yap
 * Jsx i kullanışlı olduğu için ve bileşen oluşturmayı kolaylaştırdığı için kullanıyoruz. Tarayıcı jsx i anlayamadığı için Babel aracılığıyla js e dönüştürülür. Webpack, tüm farklı dosyaları alır ve 
 tek yerde birleştirir.
 * Tüm prop isimleri camelCase olmalıdır.
-* Number lar {} içerisinde verilmeli.
+* Number lar {} içerisinde verilmelidir.
 * Boolean proplarda doğru olduğunu ekstra belirtmeye gerek yok. False da ise {} içerisinde belirtmeliyiz.
 * Class yerine className kullanılır .
 * Satır içi style obje olarak kullanılır.
@@ -45,17 +45,12 @@ tek yerde birleştirir.
 * React fragment, Dom'a ekstra düğüm eklemeden bir alt elemanlar listesini gruplandırmamıza olanak tanır, kullanımı <></> ya da <React.Fragment></React.Fragment> şeklindedir.
 * Component composition, parent elementten child elemente birden fazla yerden prop geçirerek erişim karmaşasını ortadan kaldırmak adına çok kullanışlı bir yöntemdir. Aynı zamanda parent element yeniden kullanılabilir bir yapıya sahip olur. Child componentleri, parent componentin açılış ve kapanış tagleri içine taşırız ve children propu vererek işlemi tamamlarız. Prop drilling durumundan da böylece kaçınmış oluruz.
 
-## CSS Kütüphaneleri
-* Bulma.io
-* Material UI
-* TailwindCSS
-
 # Hooks:
-* İşlev bileşenlerine (functional components) state ve diğer React özelliklerini eklemek için kullanılan fonksiyonlardır.
-* Hookları kondisyon içine koymamalı ve erken return yapamamalıyız.
+* Functional components lere state ve diğer React özelliklerini eklemek için kullanılan fonksiyonlardır.
+* Hookları kondisyon içine koymamalı ve erken return yapmamalıyız.
   
 ## useState: 
-* Değişkenleri değiştirmek için kullanılır. `const [text, setText]=useState(0)`
+* Değişkenleri değiştirmek için kullanılır. `const [open, setOpen]=useState(false)`
 
 ## useEffect:
 * React fonksiyonel bileşenlerinde yan etkileri (side effects) yönetmek için kullanılan bir Hook'tur. Bileşenin her render işlemi sonrasında çalışır. Bu, bir bileşenin mount (oluşturulma), update (güncelleme), ve unmount (kaldırma) durumlarına tepki verebileceği anlamına gelir. `useEffect(function(){},[])`
@@ -64,14 +59,13 @@ tek yerde birleştirir.
   * useEffect(fn,[ ]); sadece mount ta çalışır.
   * useEffect(fn); Sayfa ilk yüklendiğinde çalışır.
 
-
 ## useRef:
  * Renderlar arasında korunmasını istediğimiz her veriyi içine koyabileceğimiz kutu olarak düşünebiliriz.
  * Değeri değişse bile bileşeni yeniden renderlamaz.
  * DOM öğelerini seçmek ve saklamak için kullanılır!
  * Refler sadece event handlers da ve effectlerde görünür.( jsx te değil)
- * State gibi renderlarda kalıcıdır(değerleri hatırlar).
- * State te güncelleme(async) bileşenin yeniden oluşturulmasına neden olur ama ref(sync) te olmaz.
+ * State gibi renderlarda kalıcıdır (değerleri hatırlar).
+ * State te güncelleme (async) bileşenin yeniden oluşturulmasına neden olur ama ref (sync) te olmaz.
    
 ## useReducer:
  * Aynı anda birden fazla state güncellemek istediğimizde kullanırız.
@@ -81,56 +75,74 @@ tek yerde birleştirir.
 * Bir Single Page Application (SPA) içinde sayfa değişikliklerini yönetmek için kullanılan bir kütüphanedir. 
 * Router ile farklı URL leri farklı UI görünümleriyle (componentleri) eşleştiririz. Böylece, kullanıcıların tarayıcı URL sini kullanarak farklı uygulama ekranları arasında gezinmesine olanak tanır.
 * Tek sayfalı uygulamalar oluşturmamızı sağlar.
-* Sayfa içeriği değişirken, React DOM, Virtual DOM üzerinden etkili bir şekilde gerçek DOM'u günceller. Bu, kullanıcıya daha hızlı bir kullanıcı deneyimi sunar, çünkü sadece değişen kısımların güncellenmesi 
-  gerekir.
+* Sayfa içeriği değişirken, React DOM, Virtual DOM üzerinden etkili bir şekilde gerçek DOM'u günceller. Bu, kullanıcıya daha hızlı bir kullanıcı deneyimi sunar, çünkü sadece değişen kısımların güncellenmesi gerekir.
 * Kullanıcı arayüzünü geçerli tarayıcı URL siyle senkronize tutar.
 * Web API'lerinden veri almak ve bu veriyi kullanarak sayfa içeriğini güncellemek de mümkündür.
-* npm i react-router-dom ile kurulum yapılır.
+* `npm i react-router-dom` ile kurulum yapılır.
   ### Single Page Application (SPA):
-  * Web uygulamalarının geleneksel çok sayfalı yapı yerine tek bir HTML sayfasında yüklenen ve dinamik olarak içeriği değiştiren; istemcide yani kullanıcının web tarayıcısında tamamen yürütülen bir tür
-    web uygulama mimarisini ifade eder.
-  * SPA'lar, sayfalar arasında geçiş yaparken tarayıcıda tam bir sayfa yeniden yüklemesi yapmazlar. Bunun yerine, React Router gibi yönlendirme kütüphaneleri kullanılarak tarayıcıdaki URL'yi değiştirmek ve 
-    uygun React bileşenlerini göstermek suretiyle sayfa içeriğini dinamik olarak güncellerler.
+  * Web uygulamalarının geleneksel çok sayfalı yapı yerine tek bir HTML sayfasında yüklenen ve dinamik olarak içeriği değiştiren; istemcide yani kullanıcının web tarayıcısında tamamen yürütülen bir tür web uygulama mimarisini ifade eder.
+  * SPA'lar, sayfalar arasında geçiş yaparken tarayıcıda tam bir sayfa yeniden yüklemesi yapmazlar. Bunun yerine, React router gibi yönlendirme kütüphaneleri kullanılarak tarayıcıdaki URL'yi değiştirmek ve uygun react bileşenlerini göstermek amacıyla sayfa içeriğini dinamik olarak günceller.
   ### Routes:
-  * Bir web uygulamasında belirli URL yolları ile ilişkilendirilen sayfaların veya bileşenlerin tanımlandığı bir kavramdır. Bu, genellikle bir web uygulamasının gezinme yapısını yönetmek ve belirli URL'lere 
-  karşılık gelen içeriği göstermek için kullanılır.<br>
+  * Bir web uygulamasında belirli URL yolları ile ilişkilendirilen sayfaların veya bileşenlerin tanımlandığı bir kavramdır. Bu, genellikle bir web uygulamasının gezinme yapısını yönetmek ve belirli URL'lere karşılık gelen içeriği göstermek için kullanılır.<br>
   Basitçe Router yapısı (eski versiyon) : <br>
 `<BrowserRouter>`<br>
    `<Routes>` <br>
       `<Route path="product" element={<Product />} />`<br>
    `</Routes>`<br>
 `</BrowserRouter>`<br>
-* Link to ile bileşenleri kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır.
-* Bu kod proje başladığında veya pathi kontrol paneline eşit olduğunda Kontrol Paneli bileşenine gitmeyi sağlar. Yinelemeleri önlemek için *Navigate* kullanabiliriz.
+* React'ta Link bileşeni, kullanıcıların farklı sayfalara gitmelerini sağlamak için kullanılır. to prop'u, kullanıcıyı yönlendirmek istediğiniz sayfanın yolunu belirtir.
+* Bu kod, proje başladığında veya URL yolu kontrol paneline (/dashboard) eşit olduğunda kullanıcıyı kontrol paneli (dashboard) bileşenine yönlendirir. Yinelemeleri önlemek ve daha temiz bir yönlendirme yapmak için *Navigate* bileşenini kullanabiliriz.
 * `  <Route index element={<Navigate replace to="dashboard" />} />
-        <Route path="dashboard" element={<Dashboard />} />`
+     <Route path="dashboard" element={<Dashboard />} />`
 * ---
 ### *ROUTER OLUŞTURMANIN YENİ VERSİYONU:*
 * App componentimizde createBrowserRouter fonksiyonunu react router dom dan import ettikten sonra route ları oluşturuyoruz.
-  * Fonksiyonun içinde objeler dizimizde yönlendirmeyi yaparken *path* ile *element* özelliklerini kullanıyoruz.
-   * Path yolu belirtirken, element de componentimize işaret ediyor.
-   * İç içe route oluşturmak için children kullanıyoruz. Ve bu child route ları göstermek için `<Outlet/>` componentini import ederek kullanıyoruz.
-* RouterProvider a, oluşturduğumuz _createBrowserRouter_ fonksiyonunu prop olarak veriyoruz.
-
+* Fonksiyonun içinde objeler dizimizde yönlendirmeyi yaparken *path* ile *element* özelliklerini kullanıyoruz.
+* Path yolu belirtirken, element de componentimize işaret ediyor.
+* İç içe route oluşturmak için children kullanıyoruz. Ve bu child route ları göstermek için `<Outlet/>` componentini import ederek kullanıyoruz.
+* RouterProvider a, oluşturduğumuz _createBrowserRouter_ fonksiyonunu prop olarak veriyoruz.<br>
+`const router = createBrowserRouter([`<br>
+  `{`<br>
+   `path: "/",`<br>
+    `element: <Layout />, `<br>
+    `children: [`<br>
+     `{ path: "home", element: <Home /> },`<br>
+      `{ path: "dashboard", element: <Dashboard /> },`<br>
+    `],`<br>
+  `},`<br>
+  `{ path: "*", element: <NotFound /> },`<br>
+  `]);`<br>
+  `function App() {`<br>
+  `return <RouterProvider router={router} />;`<br>
+  `}`<br>
+  
 # Performans Optimizasyonu
- * React uygulamalarının performansını optimize etmek için odaklanacağımız 3 ana dal var:
-   * Renderların boşa harcanmasını engellemek. (Prevent wasted renders):
-    * memo, useMemo, useCallback, elementleri children ya da prop olarak geçmek 
+ * React uygulamalarının performansını optimize etmek için odaklanacağımız 3 ana dal vardır:
+   * Gereksiz renderlamaları engellemek. (Prevent wasted renders):
+     * React.memo: Bileşenlerin yalnızca prop’ları değiştiğinde yeniden render edilmesini sağlar.
+     * useMemo: Karmaşık hesaplamaların yalnızca bağımlı değerler değiştiğinde çalışmasını sağlar.
+     * useCallback: Fonksiyon referanslarını kaydederek, bileşenlerin yeniden render edilmesinde aynı fonksiyonların tekrar tekrar tanımlanmasını engeller.
+     * Prop ve Children Kullanımı: Özellikle nesne veya fonksiyon prop larını doğrudan geçirmek yerine useCallback veya useMemo ile sarmalayarak gereksiz renderları azaltabilirsiniz.
    * Genel uygulama hızını arttırmak. (Improve app speed / responsiveness)
-    * useMemo, useCallback, useTransition 
+     * useMemo ve useCallback: Performans gerektiren işlemleri veya hesaplamaları optimize etmek için kullanılır.
+     * useTransition: Kullanıcı deneyimini geliştirmek için geçiş işlemlerini daha pürüzsüz hale getirir, böylece ağır işlemler arka planda yapılırken uygulama yanıt vermeye devam eder.
    * Paket boyutunu azaltmak.(Reduce bundle size)
-    * 3.taraf kütüphaneler kullanmak , code splitting ve lazy loading (import)
+    * 3. Taraf Kütüphanelerin Kullanımı: Daha hafif ve optimize edilmiş kütüphaneler tercih edilerek paket boyutu küçültülebilir.
+    * Code Splitting ve Lazy Loading: Uygulamanın yalnızca ihtiyaç duyulan bölümleri yüklendiğinden başlangıçtaki yükleme süresini azaltır. React.lazy ve Suspense kullanarak bileşenleri 
+     tembel yükleme ile yalnızca ihtiyaç duyulduğunda yüklemek bu tekniklerdendir.
+        - `import React, { lazy } from "react";`<br>
+          `const About = lazy(() => import("./About"));`
  ---
 # REDUX :
  * Bir web uygulamasında global state i yönetmek için kullandığımız 3. taraf kütüphanedir.
- * Uygulamamızdaki tüm global state, global olarak erişilebilen yerde ( globally accessible store) saklanır ve action ile güncellenir. Tıpkı useReducer gibi.
- * Global store güncellenir güncellenmez bazı verileri tüketen tüm react bileşenleri store dan yeniden renderlanacak. (Context api ile useReducer ı birleştirmeye benzer).
+ * Uygulamamızdaki tüm global state, global olarak erişilebilen yerde ( globally accessible store) saklanır ve action tetiklendiğinde store güncellenir. Tıpkı useReducer gibi.
+ * Global store güncellenir güncellenmez store içerisindeki state bağlı tüm componentlerde yeniden renderlanır. (Context api ile useReducer ı birleştirmeye benzer fakat büyük projelerde verimlilik adına redux kullanmak daha mantıklı olacaktır.).
  * Redux ı kullanmanın 2 yolu var
    * 1- Classic Redux
    * 2- Modern Redux Toolkit
- * Redux ile küresel durumu güncelleme döngüsü:
-   * Bir bileşende bir action oluşturucuyu (action creator function) çağırarak başlıyoruz.
-   * Ardından sonuçlanan action, store a ulaşacak. Yani doğru reducerın, action ı alıp güncelleyeceği yer.
+ * Redux ile global state i güncelleme döngüsü:
+   * Bir componentte bir action oluşturucuyu (action creator function) çağırarak başlıyoruz.
+   * Ardından sonuçlanan action, store a ulaşır yani doğru reducerın, action ı alıp güncelleyeceği yer.
    * Daha sonra bu kullanıcı arayüzünün yeniden tetiklenmesini sağlayacak.
    * Buradaki asıl hedef, durum güncelleme mantığını uygulamanın geri kalanından ayrı kılmak.
  * *npm i redux* ile kurulum yapılır.
@@ -138,8 +150,8 @@ tek yerde birleştirir.
  * Daha sonra reducer fonksiyonu oluşturup parametrelerini *state* ve *action* olarak veriyoruz. useReducerdan farkı, *state i default olarak initial state* e eşitliyoruz.
  * Switch case yapımızı oluşturup her durumu ele alıyoruz. Default olarak error oluşturmak yerine state i döndürüyoruz.
  * createStore u reduxtan import ediyoruz ve çağırıyoruz, parametre olarak da  reducer fonksiyonunu ekliyoruz. `const state=createStore(reducer)`
- * Daha sonrasında, store objesinden dispatch fonksiyonumuzu okuyoruz ve useReducerda olduğu gibi güncelliyoruz (her state için manuel olarak).
- * Aslında manuel olarak yapmaktansa, otomatik olarak bu işlevi gerçekleştirmek için *Action Creators* yapısını kullanabiliriz (Yaptığı tek şey eylemleri geri döndürmek).
+ * Daha sonra, store objesinden dispatch fonksiyonumuzu okuyoruz ve useReducerda olduğu gibi güncelliyoruz (her state için manuel olarak).
+ * Aslında manuel olarak yapmaktansa, otomatik olarak bu işlevi gerçekleştirmek için *Action Creators* yapısını kullanabiliriz (Yaptığı tek şey actionları geri döndürmek).
  * Oluşturulan birden fazla Reducer fonksiyonunu bir araya getirmek ve kullanmak için bir Root reducer oluşturup, bu değişken üzerinde *combineReducers* fonksiyonunu çağırabiliriz.
    * `const routeReducer = combineReducers({
   account: accountReducer,
@@ -149,7 +161,7 @@ tek yerde birleştirir.
 * Redux store u react uygulamasıyla bağlamak için öncelikle *npm i react-redux* ı kurmamız gerekiyor.
 * React reduxtan *Provider* componentini import edip uygulamamızın tümünü providera saralım, bu işlem context api daki gibi yapılır. Daha sonra oluşturduğumuz *store* yapısını providera prop olarak verelim.
 * Redux store dan veri okumak için useSelector() kullanılır. `const customer=useSelector((store)=>store.customer)`.
-* React componentlerinin içersinden redux mağazasına action göndermek için useDispatch() kullanılır.
+* React componentlerinin içerisinden redux store una action göndermek için *useDispatch()* kullanılır.
 * Bazı api lara asenkron çağrı yaparken reducer ların içerisinde kesinlikle yapamayız. Çünkü reducer ların saf (pure) fonksiyonlar olması gerekir.
 * Asenkron bir işlemi component içerisinde yaparak dispatch için kullanabiliriz ama bu da ideal değildir.
 * Peki ya store veya componentlerde yapamayacaksak nerede yapacağız? Tam burada devreye *Middleware* giriyor.
@@ -157,9 +169,9 @@ tek yerde birleştirir.
 * Gönderdikten (dispatching) sonra güncellenen state, direkt store a gitmek yerine bir ara birime uğrar. Burası *"Redux Thunks"* olarak isimlendirilir ve 3rd party bir pakettir.
 * Asenkron tüm işlemler için Thunks kullanalım:
   * 1- `npm i redux-thunk` ile Redux Thunks ı kuralım.
-  * 2- Store içerisinde oluşturma.
+  * 2- Store içerisinde oluşturalım.
   *  `const store = createStore(rootReducer, applyMiddleware(thunk));`
-  * 3- Action Creator içerisinde kullanma
+  * 3- Action Creator içerisinde kullanalım.
   # REDUX GELİŞTİRİCİ ARAÇLARI:
     * Chrome eklentisi olarak *redux-devtools* u kuralım.
     * Daha sonra `npm i redux-devtools-extension` ı terminalde yazarak kuralım.
@@ -183,9 +195,9 @@ tek yerde birleştirir.
 | CSR WITH PLAIN REACT | SSR WITH FRAMEWORK |
 |-----------------------|--------------------|
 | Tek Sayfalı Uygulamalar (SPA'lar) oluşturmak için kullanılır | Çok Sayfalı Uygulamalar (MPA'lar) oluşturmak için kullanılır |
-| Tüm HTML istemcide oluşturulur | Bazı HTML'ler sunucuda işleniyor |
-| Uygulamalar çalışmaya başlamadan tüm js in indirilmesi gerekiyor: performans açısından kötü (kalitesiz cihaz, kötü internet bağlantısı var ise) | Daha az JavaScript indirilmesi gerektiğinden daha performanslı |
-| Mükemmel bir kullanım örneği: kullanılan uygulamalar Şirket içi araçlar olarak “dahili olarak” tamamen bir girişin arkasına gizlenmiş | React ekibi bu yönde giderek daha fazla ilerliyor |
+| Tüm HTML istemcide oluşturulur | Bazı HTML'ler sunucuda oluşturulur |
+| Uygulamalar çalışmaya başlamadan tüm js in indirilmesi gerekiyor: Performans açısından kötü (kalitesiz cihaz, kötü internet bağlantısı var ise) | Daha az JavaScript indirilmesi gerektiğinden daha performanslı |
+| şirket içi araçlar, dahili uygulamalar veya daha az SEO gereksinimi olan uygulamalar için mükemmel bir seçim olabilir. |  SEO gereksinimlerini ön planda tutan ve içeriğin hızlı bir şekilde kullanıcıya ulaşması gereken uygulamalar için ideal bir yaklaşımdır (örneğin, bloglar veya e-ticaret siteleri).  |
 
 # STYLED COMPONENTS
 * React uygulamalarında kullanılan popüler bir CSS-in-JS kütüphanesidir.
