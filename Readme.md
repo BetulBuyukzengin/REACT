@@ -220,17 +220,17 @@ tek yerde birleştirir.
 * Supabase, SQL tarafından desteklenen, ilişkisel bir veritabanı olan postgres veritabanını kullanmaktadır. Bu tabloları birleştirmek için foreign key kullanılır.
 
 # REACT QUERY
-* Uzak durumu yönetmek için kullanılan güçlü bir kütüphanedir.
-* Çok daha az kod yazmamıza olanak tanırken aynı zamanda kullanıcı deneyimini çok daha iyi hale getiren birçok özelliği mevcut:
+* Remote state i yönetmek için kullanılan güçlü bir kütüphanedir.
+* Çok daha az kod yazmamıza olanak tanırken aynı zamanda kullanıcı deneyimini çok daha iyi hale getiren birçok özelliği mevcuttur:
    * Otomatik yükleme ve hata durumları
-   * Durumu senkronize tutmak için otomatik yeniden getirme 
-   * Getirilen tüm uzak durumlar önbellekte saklanır.
+   * State i senkronize tutmak için otomatik yeniden getirme 
+   * Getirilen tüm remote stateler önbellekte saklanır.
    * Pre-fetching.
-   * Kolay bir şekilde uzaktan durum değişimi (güncelleme).
+   * Kolay bir şekilde uzaktan state değişimi (güncelleme).
    * Çevrimdışı destek.
-   * Uzak state (remote), normal stateten (regular) farklıdır.
+   * Remote state, regular stateten farklıdır.
    * Asenkron işlemleri, ara yüzümüz ile senkron tutmak için react query kullanıyoruz.
-* `npm i @tanstack/react-query` ile kurulum yapılır.
+* `npm i @tanstack/react-query` ile kurulum yapalım.
 * Kullanımı:
    * İlk önce verilerin barındığı bir yer oluşturalım.<br>
      `const queryClient = new QueryClient({
@@ -247,8 +247,8 @@ tek yerde birleştirir.
     </QueryClientProvider>`
 * React query nin geliştirme aracını kurmak için `npm i @tanstack/react-query-devtools` komut satırından faydalanabiliriz. QueryClientProvider ın içerisinde:<br>
 `  <ReactQueryDevtools initialIsOpen={false} />`
-* `useQuery hook` u, React Query'nin bir parçasıdır ve sunucudan veri getirmek  ve bu verileri yönetmek için kullanılır.
-* `useMutation hook ` u : Mutasyon, genellikle bir API isteğini tetiklemek ve ardından başarılı veya başarısız olması durumunda belirli işlemleri gerçekleştirmek için kullanılır.<br>
+* `useQuery hook` u, React Query'nin bir parçasıdır ve sunucudan veri getirmek, bu verileri yönetmek için kullanılır.
+* `useMutation hook ` u : Mutasyon, genellikle bir API isteğini tetiklemek ve ardından başarılı veya başarısız olması durumunda belirli işlemleri gerçekleştirmek için kullanılır. Örneğin bir kullanıcının bilgilerini güncellemek, bir öğeyi silmek veya yeni bir öğe eklemek gibi işlemleri yapmak için kullanılabilir.<br>
    `  const { mutate, isLoading: isCreating } = useMutation({
     mutationFn: createCabin,
     onSuccess: () => {
@@ -271,7 +271,7 @@ tek yerde birleştirir.
 * `npm i react-hook-form` ile kurulum yapılır.
 * `const { register, handleSubmit } = useForm();` : Buradaki register ve handleSubmit değişkenleri, "react-hook-form" kütüphanesinin sağladığı iki önemli fonksiyonu temsil eder.
   * *register*: Bu fonksiyon, formdaki her bir input alanını yönetmek için kullanılır. Input alanlarını bu fonksiyonla kaydederek, değerlerin doğrulanması, takip edilmesi ve gönderilmesi gibi işlemler gerçekleştirilebilir.
-  * *handleSubmit*: Bu fonksiyon, formun gönderilme işlemi için kullanılır. Formun gönderilme olayını yönetir ve gönderme işlemi için belirtilen bir geri çağrı işlevini çalıştırır. Bu işlev, formdaki alanlardan toplanan verileri işlemek ve gerekli işlemleri gerçekleştirmek için kullanılabilir.
+  * *handleSubmit*: Bu fonksiyon, formun gönderilme işlemi için kullanılır. Formun gönderilme olayını yönetir ve gönderme işlemi için belirtilen bir call back işlevini çalıştırır. Bu işlev, formdaki alanlardan toplanan verileri işlemek ve gerekli işlemleri gerçekleştirmek için kullanılabilir.
   * Bu iki fonksiyonun yanı sıra farklı fonksiyonları da içerir.<a href="https://react-hook-form.com/docs/useform"> Daha fazla detay için ... </a>
   * `<Textarea
           type="number"
@@ -297,13 +297,11 @@ tek yerde birleştirir.
     * Componentler ve proplar
     * Children prop  
   ## Durum Bilgili Mantık (Stateful Logic)    
-    * Özel kancalar (Custom Hooks) 
+    * Custom Hooks
   ## Her iki kategori için ise :
-    * Render props pattern : Render Props deseni, bir bileşenin içindeki işlevselliği dışa aktarmanın ve bu işlevselliğin diğer
-    bileşenler tarafından kullanılmasını sağlamanın bir yoludur. Bu, React uygulamalarında bileşenler arasında esneklik ve
-    yeniden kullanılabilirlik sağlar. Kancalardan önce daha yaygın ve kullanışlıydı.
-    * Compound component pattern : Kendi durumlarını yönetmek isteyen birbirleriyle ilişkili bileşenlerin bir araya gelerek 
-    daha büyük ve karmaşık bileşenlerin oluşturulmasını sağlayan bir tasarım desenidir. Bileşik bileşenler süslü süper 
-    bileşenler gibidir. Bu desen, modüler ve yeniden kullanılabilir kullanıcı arayüzü bileşenlerinin geliştirilmesinde yardımcı
-    olabilir.
+    * Render props pattern : Render Props deseni, bir componentin içindeki işlevselliği dışa aktarmanın ve bu işlevselliğin diğer
+    componentler tarafından kullanılmasını sağlamanın bir yoludur. Bu, React uygulamalarında componentler arasında esneklik ve
+    yeniden kullanılabilirlik sağlar. Hook lardan önce daha yaygın ve kullanışlıydı.
+    * Compound component pattern : Kendi state lerini yönetmek isteyen birbirleriyle ilişkili componentlerin bir araya gelerek 
+    daha büyük ve karmaşık componentlerin oluşturulmasını sağlayan bir tasarım desenidir. Compound componentler, modüler ve yeniden kullanılabilir kullanıcı arayüzü componentlerinin geliştirilmesinde yardımcı olur.
 
