@@ -298,7 +298,7 @@ tek yerde birleştirir.
     * Children prop  
   ## Durum Bilgili Mantık (Stateful Logic)    
     * Custom Hooks
-  ## Her iki kategori için ise :
+  ### Her iki kategori için ise :
     * Render props pattern : Render Props deseni, bir componentin içindeki işlevselliği dışa aktarmanın ve bu işlevselliğin diğer
     componentler tarafından kullanılmasını sağlamanın bir yoludur. Bu, React uygulamalarında componentler arasında esneklik ve
     yeniden kullanılabilirlik sağlar. Hook lardan önce daha yaygın ve kullanışlıydı.
