@@ -303,5 +303,6 @@ tek yerde birleştirir.
     componentler tarafından kullanılmasını sağlamanın bir yoludur. Bu, React uygulamalarında componentler arasında esneklik ve
     yeniden kullanılabilirlik sağlar. Hook lardan önce daha yaygın ve kullanışlıydı.
     * Compound component pattern : Kendi state lerini yönetmek isteyen birbirleriyle ilişkili componentlerin bir araya gelerek 
-    daha büyük ve karmaşık componentlerin oluşturulmasını sağlayan bir tasarım desenidir. Compound componentler, modüler ve yeniden kullanılabilir kullanıcı arayüzü componentlerinin geliştirilmesinde yardımcı olur.
+    daha büyük ve karmaşık componentlerin oluşturulmasını sağlayan bir tasarım desenidir. Compound componentler, modüler ve yeniden kullanılabilir
+    kullanıcı arayüzü componentlerinin geliştirilmesinde yardımcı olur.
 
