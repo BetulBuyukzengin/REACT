@@ -53,15 +53,15 @@ tek yerde birleştirir.
 * Değişkenleri değiştirmek için kullanılır. `const [open, setOpen]=useState(false)`
 
 ## useEffect:
-* React fonksiyonel bileşenlerinde yan etkileri (side effects) yönetmek için kullanılan bir Hook'tur. Bileşenin her render işlemi sonrasında çalışır. Bu, bir bileşenin mount (oluşturulma), update (güncelleme), ve unmount (kaldırma) durumlarına tepki verebileceği anlamına gelir. `useEffect(function(){},[])`
+* React fonksiyonel componentlerinde yan etkileri (side effects) yönetmek için kullanılan bir Hook'tur. Componentin her render işlemi sonrasında çalışır. Bu, bir componentin mount (oluşturulma), update (güncelleme), ve unmount (kaldırma) durumlarına tepki verebileceği anlamına gelir. `useEffect(function(){},[])`
  * 3 farklı bağımlılık dizisi türü vardır:
   * useEffect(fn,[x,y,z]); update te çalışır.
   * useEffect(fn,[ ]); sadece mount ta çalışır.
-  * useEffect(fn); Sayfa ilk yüklendiğinde çalışır.
+  * useEffect(fn); Component her yeniden renderlandığında çalışır.
 
 ## useRef:
  * Renderlar arasında korunmasını istediğimiz her veriyi içine koyabileceğimiz kutu olarak düşünebiliriz.
- * Değeri değişse bile bileşeni yeniden renderlamaz.
+ * Değeri değişse bile componenti yeniden renderlamaz.
  * DOM öğelerini seçmek ve saklamak için kullanılır!
  * Refler sadece event handlers da ve effectlerde görünür.( jsx te değil)
  * State gibi renderlarda kalıcıdır (değerleri hatırlar).
